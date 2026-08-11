@@ -1,7 +1,7 @@
 from fastapi import APIRouter
 
 from app.db.client import supabase
-
+from app.schemas.category import CategoryResponse
 
 router = APIRouter(
     prefix="/api/v1/categories",
@@ -9,7 +9,7 @@ router = APIRouter(
 )
 
 
-@router.get("")
+@router.get("", response_model=list[CategoryResponse])
 def get_categories():
     response = (
         supabase
