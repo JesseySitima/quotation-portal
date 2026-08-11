@@ -7,6 +7,7 @@ class Settings(BaseSettings):
     environment: str = "development"
     supabase_url: str
     supabase_anon_key: str
+    supabase_secret_key: str
 
     model_config = SettingsConfigDict(
         env_file=".env",

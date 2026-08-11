@@ -5,5 +5,5 @@ from app.config import settings
 
 supabase: Client = create_client(
     settings.supabase_url,
-    settings.supabase_anon_key,
+    settings.supabase_secret_key,
 )
