@@ -1,8 +1,9 @@
-from fastapi import APIRouter, Query
+from fastapi import APIRouter, Query, HTTPException
 from uuid import UUID
 import math
 from app.db.client import supabase
 from app.schemas.product import ProductListResponse
+from app.schemas.product import ProductResponse
 
 router = APIRouter(
     prefix="/api/v1/products",
@@ -55,3 +56,25 @@ def get_products(
     "total": total,
     "total_pages": total_pages,
 }
+    
+@router.get("/{product_id}", response_model=ProductResponse)
+def get_product(product_id: UUID):
+    response = (
+        supabase
+        .table("products")
+        .select(
+            "id, name, sku, description, unit, "
+            "stock_quantity, is_available, category_id"
+        )
+        .eq("id", str(product_id))
+        .eq("is_available", True)
+        .execute()
+    )
+
+    if not response.data:
+        raise HTTPException(
+            status_code=404,
+            detail="Product not found",
+        )
+
+    return response.data[0]
