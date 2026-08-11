@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-
+from app.db.client import supabase
 from app.config import settings
 
 
@@ -29,3 +29,16 @@ def health_check():
         "service": settings.app_name,
         "environment": settings.environment,
     }
+    
+@app.get("/api/v1/categories")
+def get_categories():
+    response = (
+        supabase
+        .table("categories")
+        .select("id, name, slug, description")
+        .eq("is_active", True)
+        .order("name")
+        .execute()
+    )
+
+    return response.data

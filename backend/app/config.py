@@ -5,6 +5,8 @@ class Settings(BaseSettings):
     app_name: str = "Quotation Portal API"
     app_version: str = "1.0.0"
     environment: str = "development"
+    supabase_url: str
+    supabase_anon_key: str
 
     model_config = SettingsConfigDict(
         env_file=".env",
