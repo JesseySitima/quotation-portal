@@ -1,8 +1,9 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from app.db.client import supabase
-from app.config import settings
 
+from app.config import settings
+from app.routers.categories import router as categories_router
+from app.routers.products import router as products_router
 
 app = FastAPI(
     title=settings.app_name,
@@ -22,6 +23,10 @@ app.add_middleware(
 )
 
 
+app.include_router(categories_router)
+app.include_router(products_router)
+
+
 @app.get("/api/v1/health")
 def health_check():
     return {
@@ -29,16 +34,3 @@ def health_check():
         "service": settings.app_name,
         "environment": settings.environment,
     }
-    
-@app.get("/api/v1/categories")
-def get_categories():
-    response = (
-        supabase
-        .table("categories")
-        .select("id, name, slug, description")
-        .eq("is_active", True)
-        .order("name")
-        .execute()
-    )
-
-    return response.data
