@@ -1,14 +1,14 @@
 from fastapi import APIRouter
 
 from app.db.client import supabase
-
+from app.schemas.product import ProductResponse
 
 router = APIRouter(
     prefix="/api/v1/products",
     tags=["Products"],
 )
 
-@router.get("")
+@router.get("", response_model=list[ProductResponse])
 def get_products():
     response = (
         supabase
