@@ -8,6 +8,8 @@ class Settings(BaseSettings):
     supabase_url: str
     supabase_anon_key: str
     supabase_secret_key: str
+    resend_api_key: str
+    quotation_email: str
 
     model_config = SettingsConfigDict(
         env_file=".env",

@@ -2,7 +2,7 @@ from fastapi import APIRouter, HTTPException
 from datetime import datetime
 from app.db.client import supabase
 from app.schemas.quotation import QuotationRequestCreate
-
+from app.services.email import send_test_email
 
 router = APIRouter(
     prefix="/api/v1/quotations",
@@ -81,4 +81,13 @@ def create_quotation(request: QuotationRequestCreate):
         "message": "Quotation request created successfully",
         "quotation": quotation,
         "items": items_response.data,
+    }
+    
+@router.post("/test-email")
+def test_email():
+    response = send_test_email()
+
+    return {
+        "message": "Test email sent successfully",
+        "response": response,
     }

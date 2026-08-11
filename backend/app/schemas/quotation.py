@@ -2,6 +2,7 @@ from uuid import UUID
 
 from pydantic import BaseModel, EmailStr, Field
 
+from app.services.email import send_test_email
 
 class QuotationRequestItemCreate(BaseModel):
     product_id: UUID
@@ -36,3 +37,4 @@ class QuotationRequestResponse(BaseModel):
     status: str
     created_at: str
     items: list[QuotationRequestItemResponse]
+    
