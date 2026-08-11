@@ -11,3 +11,11 @@ class ProductResponse(BaseModel):
     unit: str
     is_available: bool
     category_id: UUID
+    
+    
+class ProductListResponse(BaseModel):
+    items: list[ProductResponse]
+    page: int
+    page_size: int
+    total: int
+    total_pages: int

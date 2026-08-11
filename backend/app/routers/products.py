@@ -1,25 +1,57 @@
-from fastapi import APIRouter
-
+from fastapi import APIRouter, Query
+from uuid import UUID
+import math
 from app.db.client import supabase
-from app.schemas.product import ProductResponse
+from app.schemas.product import ProductListResponse
 
 router = APIRouter(
     prefix="/api/v1/products",
     tags=["Products"],
 )
 
-@router.get("", response_model=list[ProductResponse])
-def get_products():
-    response = (
+@router.get("", response_model=ProductListResponse)
+def get_products(
+    search: str | None = Query(default=None, min_length=1, max_length=100),
+    category_id: UUID | None = None,
+    page: int = Query(default=1, ge=1),
+    page_size: int = Query(default=20, ge=1, le=100),
+):
+    start = (page - 1) * page_size
+    end = start + page_size - 1
+    
+    query = (
         supabase
         .table("products")
-        .select(
+       .select(
             "id, name, sku, description, unit, "
-            "stock_quantity, is_available, category_id"
+            "stock_quantity, is_available, category_id",
+            count="exact",
         )
         .eq("is_available", True)
-        .order("name")
-        .execute()
     )
 
-    return response.data
+    if search:
+        query = query.or_(
+            f"name.ilike.%{search}%,sku.ilike.%{search}%"
+        )
+        
+    if category_id:
+        query = query.eq("category_id", str(category_id))
+
+    response = (
+        query
+        .order("name")
+        .range(start, end)
+        .execute()
+    )
+    
+    total = response.count or 0
+    total_pages = math.ceil(total / page_size) if total > 0 else 0
+
+    return {
+    "items": response.data,
+    "page": page,
+    "page_size": page_size,
+    "total": total,
+    "total_pages": total_pages,
+}
