@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default function Home() {
   return (
     <main className="min-h-screen bg-[#f7f8f6] text-[#171a17]">
@@ -47,19 +49,21 @@ export default function Home() {
             </h2>
 
             <p className="mx-auto mt-6 max-w-xl text-base leading-7 text-[#69716b] sm:text-lg">
-              Tell us what you need, send your request to our sales team,
-              and we&apos;ll get back to you.
+              Tell us what you need, send your request to our sales team, and
+              we&apos;ll get back to you.
             </p>
 
             {/* CTA */}
             <div className="mt-9 flex flex-col items-center">
-              <button className="group flex h-14 items-center gap-3 rounded-2xl bg-[#173f2a] px-8 text-sm font-medium text-white shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:bg-[#205436] hover:shadow-lg">
+              <Link
+                href="/quotation"
+                className="group flex h-14 items-center gap-3 rounded-2xl bg-[#173f2a] px-8 text-sm font-medium text-white shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:bg-[#205436] hover:shadow-lg"
+              >
                 Start a quotation request
-
                 <span className="text-lg transition-transform duration-200 group-hover:translate-x-1">
                   →
                 </span>
-              </button>
+              </Link>
 
               <p className="mt-3 text-xs text-[#8a918b]">
                 No sign-up or login required
