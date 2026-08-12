@@ -1,12 +1,18 @@
 import resend
-
+import base64
 from app.config import settings
-
+from app.services.excel import create_quotation_excel
 
 resend.api_key = settings.resend_api_key
 
 
 def send_quotation_email(quotation, items):
+    excel_data = create_quotation_excel(
+    quotation,
+    items,
+)
+
+    excel_base64 = base64.b64encode(excel_data).decode("utf-8")
     items_html = ""
 
     for item in items:
@@ -76,8 +82,14 @@ def send_quotation_email(quotation, items):
     """
 
     return resend.Emails.send({
-        "from": "Quotation Portal <onboarding@resend.dev>",
+        "from": settings.email_from,
         "to": [settings.quotation_email],
         "subject": f"New Quotation Request - {quotation['request_number']}",
         "html": html,
+        "attachments": [
+            {
+                "filename": f"{quotation['request_number']}.xlsx",
+                "content": excel_base64,
+            }
+        ],
     })

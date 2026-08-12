@@ -10,6 +10,7 @@ class Settings(BaseSettings):
     supabase_secret_key: str
     resend_api_key: str
     quotation_email: str
+    email_from: str
 
     model_config = SettingsConfigDict(
         env_file=".env",
