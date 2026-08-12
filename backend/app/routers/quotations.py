@@ -77,14 +77,21 @@ def create_quotation(request: QuotationRequestCreate):
             detail="Failed to create quotation items",
         )
         
-    send_quotation_email(
-        quotation,
-        items_response.data,
-    )
+    try:
+        send_quotation_email(
+            quotation,
+            items_response.data,
+        )
+        email_sent = True
+
+    except Exception as e:
+        print(f"Quotation email failed: {e}")
+        email_sent = False
 
     return {
         "message": "Quotation request created successfully",
         "quotation": quotation,
         "items": items_response.data,
+        "email_sent": email_sent,
     }
     
