@@ -32,3 +32,10 @@ export interface QuotationResponse {
   status: string;
   items: QuotationItemResponse[];
 }
+
+export interface CreateQuotationApiResponse {
+  message: string;
+  quotation: QuotationResponse;
+  items: QuotationItemResponse[];
+  email_sent: boolean;
+}
