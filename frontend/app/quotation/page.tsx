@@ -5,6 +5,7 @@ import { useState } from "react";
 import { useCategories } from "@/hooks/useCategories";
 import { useProducts } from "@/hooks/useProducts";
 import type { Product } from "@/types/product";
+import { useCreateQuotation } from "@/hooks/useCreateQuotation";
 
 interface SelectedItem {
   product: Product;
@@ -38,6 +39,13 @@ export default function QuotationPage() {
 
   const categories = categoriesData?.items ?? [];
   const products = productsData?.items ?? [];
+
+  const {
+    mutate: submitQuotation,
+    isPending: isSubmitting,
+    isError: submitError,
+    error: submissionError,
+  } = useCreateQuotation();
 
   function addProduct(product: Product) {
     setSelectedItems((current) => {
@@ -100,6 +108,40 @@ export default function QuotationPage() {
 
   function isSelected(productId: string) {
     return selectedItems.some((item) => item.product.id === productId);
+  }
+
+  function handleSubmitQuotation() {
+    if (!facilityName.trim()) {
+      return;
+    }
+
+    if (!contactPerson.trim()) {
+      return;
+    }
+
+    if (!email.trim()) {
+      return;
+    }
+
+    if (!phone.trim()) {
+      return;
+    }
+
+    if (selectedItems.length === 0) {
+      return;
+    }
+
+    submitQuotation({
+      facility_name: facilityName.trim(),
+      contact_person: contactPerson.trim(),
+      email: email.trim(),
+      phone: phone.trim(),
+      notes: "",
+      items: selectedItems.map((item) => ({
+        product_id: item.product.id,
+        quantity: item.quantity,
+      })),
+    });
   }
 
   return (
@@ -511,6 +553,45 @@ export default function QuotationPage() {
                 </div>
               </>
             )}
+            <div className="mt-8 border-t border-[#edf0ed] pt-6">
+              {submitError && (
+                <div className="mb-4 rounded-2xl border border-red-200 bg-red-50 p-4">
+                  <p className="text-sm font-medium text-red-700">
+                    We couldn't submit your quotation request.
+                  </p>
+
+                  <p className="mt-1 text-xs text-red-600">
+                    {submissionError instanceof Error
+                      ? submissionError.message
+                      : "Please try again."}
+                  </p>
+                </div>
+              )}
+
+              <button
+                type="button"
+                onClick={handleSubmitQuotation}
+                disabled={isSubmitting || selectedItems.length === 0}
+                className="group flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-[#173f2a] text-sm font-medium text-white transition hover:bg-[#205436] disabled:cursor-not-allowed disabled:opacity-50"
+              >
+                {isSubmitting ? (
+                  "Sending request..."
+                ) : (
+                  <>
+                    Send quotation request
+                    <span className="text-lg transition-transform group-hover:translate-x-1">
+                      →
+                    </span>
+                  </>
+                )}
+              </button>
+
+              <p className="mt-3 text-center text-[11px] leading-5 text-[#858c86]">
+                Your request will be sent to our sales team.
+                <br />
+                They will contact you using the details provided.
+              </p>
+            </div>
           </section>
         </div>
       </section>
