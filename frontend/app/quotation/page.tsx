@@ -16,6 +16,10 @@ import SelectedItems, {
   type SelectedItem,
 } from "@/components/quotation/SelectedItems";
 import QuotationSuccess from "@/components/quotation/QuotationSuccess";
+import {
+  validateQuotationForm,
+  type QuotationFormErrors,
+} from "@/lib/validation/quotation";
 
 export default function QuotationPage() {
   // ============================================================
@@ -27,28 +31,27 @@ export default function QuotationPage() {
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
 
+  const [errors, setErrors] = useState<QuotationFormErrors>({});
+  const [hasSubmitted, setHasSubmitted] = useState(false);
+
   // ============================================================
   // PRODUCT SEARCH
   // ============================================================
 
   const [search, setSearch] = useState("");
-  const [selectedCategory, setSelectedCategory] =
-    useState("");
+  const [selectedCategory, setSelectedCategory] = useState("");
 
   // ============================================================
   // SELECTED PRODUCTS
   // ============================================================
 
-  const [selectedItems, setSelectedItems] = useState<
-    SelectedItem[]
-  >([]);
+  const [selectedItems, setSelectedItems] = useState<SelectedItem[]>([]);
 
   // ============================================================
   // SUBMISSION
   // ============================================================
 
-  const [submittedQuotation, setSubmittedQuotation] =
-    useState<any>(null);
+  const [submittedQuotation, setSubmittedQuotation] = useState<any>(null);
 
   // ============================================================
   // CATEGORIES
@@ -91,12 +94,8 @@ export default function QuotationPage() {
   // DOWNLOADS
   // ============================================================
 
-  const {
-    downloadExcel,
-    downloadWord,
-    isDownloadingExcel,
-    isDownloadingWord,
-  } = useDownloadQuotation();
+  const { downloadExcel, downloadWord, isDownloadingExcel, isDownloadingWord } =
+    useDownloadQuotation();
 
   // ============================================================
   // PRODUCT ACTIONS
@@ -104,9 +103,7 @@ export default function QuotationPage() {
 
   function addProduct(product: Product) {
     setSelectedItems((current) => {
-      const existing = current.find(
-        (item) => item.product.id === product.id,
-      );
+      const existing = current.find((item) => item.product.id === product.id);
 
       if (existing) {
         return current.map((item) =>
@@ -159,16 +156,12 @@ export default function QuotationPage() {
 
   function removeProduct(productId: string) {
     setSelectedItems((current) =>
-      current.filter(
-        (item) => item.product.id !== productId,
-      ),
+      current.filter((item) => item.product.id !== productId),
     );
   }
 
   function isSelected(productId: string) {
-    return selectedItems.some(
-      (item) => item.product.id === productId,
-    );
+    return selectedItems.some((item) => item.product.id === productId);
   }
 
   // ============================================================
@@ -176,15 +169,23 @@ export default function QuotationPage() {
   // ============================================================
 
   function handleSubmitQuotation() {
-    if (!facilityName.trim()) return;
+    setHasSubmitted(true);
 
-    if (!contactPerson.trim()) return;
+    const validationErrors = validateQuotationForm(
+      {
+        facilityName,
+        contactPerson,
+        email,
+        phone,
+      },
+      selectedItems.length,
+    );
 
-    if (!email.trim()) return;
+    setErrors(validationErrors);
 
-    if (!phone.trim()) return;
-
-    if (selectedItems.length === 0) return;
+    if (Object.keys(validationErrors).length > 0) {
+      return;
+    }
 
     submitQuotation(
       {
@@ -200,19 +201,13 @@ export default function QuotationPage() {
       },
       {
         onSuccess: (response) => {
-          console.log(
-            "Quotation response:",
-            response,
-          );
+          console.log("Quotation response:", response);
 
           setSubmittedQuotation(response);
         },
 
         onError: (error) => {
-          console.error(
-            "Quotation submission failed:",
-            error,
-          );
+          console.error("Quotation submission failed:", error);
         },
       },
     );
@@ -221,7 +216,6 @@ export default function QuotationPage() {
   // ============================================================
   // RESET
   // ============================================================
-
   function handleCreateAnother() {
     setSubmittedQuotation(null);
 
@@ -234,6 +228,9 @@ export default function QuotationPage() {
     setSelectedCategory("");
 
     setSelectedItems([]);
+
+    setErrors({});
+    setHasSubmitted(false);
   }
 
   // ============================================================
@@ -257,8 +254,7 @@ export default function QuotationPage() {
           </h1>
 
           <p className="mt-4 max-w-xl text-base leading-7 text-[#69716b]">
-            Add the products you&apos;d like our sales team to
-            quote.
+            Add the products you&apos;d like our sales team to quote.
           </p>
         </div>
 
@@ -274,15 +270,9 @@ export default function QuotationPage() {
             isDownloadingExcel={isDownloadingExcel}
             isDownloadingWord={isDownloadingWord}
             onDownloadExcel={() =>
-              downloadExcel(
-                submittedQuotation.quotation.id,
-              )
+              downloadExcel(submittedQuotation.quotation.id)
             }
-            onDownloadWord={() =>
-              downloadWord(
-                submittedQuotation.quotation.id,
-              )
-            }
+            onDownloadWord={() => downloadWord(submittedQuotation.quotation.id)}
             onCreateAnother={handleCreateAnother}
           />
         ) : (
@@ -296,10 +286,47 @@ export default function QuotationPage() {
               contactPerson={contactPerson}
               email={email}
               phone={phone}
-              onFacilityNameChange={setFacilityName}
-              onContactPersonChange={setContactPerson}
-              onEmailChange={setEmail}
-              onPhoneChange={setPhone}
+              errors={errors}
+              onFacilityNameChange={(value) => {
+                setFacilityName(value);
+
+                if (hasSubmitted) {
+                  setErrors((current) => ({
+                    ...current,
+                    facilityName: undefined,
+                  }));
+                }
+              }}
+              onContactPersonChange={(value) => {
+                setContactPerson(value);
+
+                if (hasSubmitted) {
+                  setErrors((current) => ({
+                    ...current,
+                    contactPerson: undefined,
+                  }));
+                }
+              }}
+              onEmailChange={(value) => {
+                setEmail(value);
+
+                if (hasSubmitted) {
+                  setErrors((current) => ({
+                    ...current,
+                    email: undefined,
+                  }));
+                }
+              }}
+              onPhoneChange={(value) => {
+                setPhone(value);
+
+                if (hasSubmitted) {
+                  setErrors((current) => ({
+                    ...current,
+                    phone: undefined,
+                  }));
+                }
+              }}
             />
 
             {/* ================================================= */}
