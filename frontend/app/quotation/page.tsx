@@ -234,6 +234,22 @@ export default function QuotationPage() {
   }
 
   // ============================================================
+  // Quantity change
+  // ============================================================
+
+  function changeQuantity(productId: string, quantity: number) {
+    setSelectedItems((current) =>
+      current.map((item) =>
+        item.product.id === productId
+          ? {
+              ...item,
+              quantity,
+            }
+          : item,
+      ),
+    );
+  }
+  // ============================================================
   // PAGE
   // ============================================================
 
@@ -355,6 +371,7 @@ export default function QuotationPage() {
                 submissionError={submissionError}
                 onIncrease={increaseQuantity}
                 onDecrease={decreaseQuantity}
+                onQuantityChange={changeQuantity}
                 onRemove={removeProduct}
                 onSubmit={handleSubmitQuotation}
               />

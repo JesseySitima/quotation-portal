@@ -14,6 +14,7 @@ interface SelectedItemsProps {
 
   onIncrease: (productId: string) => void;
   onDecrease: (productId: string) => void;
+  onQuantityChange: (productId: string, quantity: number) => void;
   onRemove: (productId: string) => void;
   onSubmit: () => void;
 }
@@ -25,6 +26,7 @@ export default function SelectedItems({
   submissionError,
   onIncrease,
   onDecrease,
+  onQuantityChange,
   onRemove,
   onSubmit,
 }: SelectedItemsProps) {
@@ -42,9 +44,7 @@ export default function SelectedItems({
               YOUR REQUEST
             </p>
 
-            <h2 className="mt-2 text-lg font-semibold">
-              Selected items
-            </h2>
+            <h2 className="mt-2 text-lg font-semibold">Selected items</h2>
           </div>
 
           {selectedItems.length > 0 && (
@@ -80,15 +80,10 @@ export default function SelectedItems({
         <>
           <div className="divide-y divide-[#edf0ed]">
             {selectedItems.map((item) => (
-              <div
-                key={item.product.id}
-                className="py-4 first:pt-0 last:pb-0"
-              >
+              <div key={item.product.id} className="py-4 first:pt-0 last:pb-0">
                 <div className="flex items-start justify-between gap-3">
                   <div className="min-w-0">
-                    <p className="text-sm font-medium">
-                      {item.product.name}
-                    </p>
+                    <p className="text-sm font-medium">{item.product.name}</p>
 
                     <p className="mt-1 text-xs text-[#858c86]">
                       {item.product.unit}
@@ -97,9 +92,7 @@ export default function SelectedItems({
 
                   <button
                     type="button"
-                    onClick={() =>
-                      onRemove(item.product.id)
-                    }
+                    onClick={() => onRemove(item.product.id)}
                     className="shrink-0 text-xs text-[#9a6b6b] transition hover:text-red-700"
                   >
                     Remove
@@ -107,30 +100,33 @@ export default function SelectedItems({
                 </div>
 
                 <div className="mt-3 flex items-center justify-between">
-                  <span className="text-xs text-[#858c86]">
-                    Quantity
-                  </span>
+                  <span className="text-xs text-[#858c86]">Quantity</span>
 
                   <div className="flex items-center rounded-xl border border-[#dfe4df]">
                     <button
                       type="button"
-                      onClick={() =>
-                        onDecrease(item.product.id)
-                      }
+                      onClick={() => onDecrease(item.product.id)}
                       className="flex h-9 w-9 items-center justify-center text-[#69716b] transition hover:text-[#173f2a]"
                     >
                       −
                     </button>
 
-                    <span className="w-8 text-center text-sm font-medium">
-                      {item.quantity}
-                    </span>
+                    <input
+                      type="number"
+                      min="1"
+                      value={item.quantity}
+                      onChange={(event) => {
+                        const value = Number(event.target.value);
 
+                        if (value >= 1) {
+                          onQuantityChange(item.product.id, value);
+                        }
+                      }}
+                      className="h-9 w-16 border-x border-[#dfe4df] bg-white text-center text-sm font-medium outline-none focus:bg-[#fafbfa]"
+                    />
                     <button
                       type="button"
-                      onClick={() =>
-                        onIncrease(item.product.id)
-                      }
+                      onClick={() => onIncrease(item.product.id)}
                       className="flex h-9 w-9 items-center justify-center text-[#69716b] transition hover:text-[#173f2a]"
                     >
                       +
@@ -143,13 +139,9 @@ export default function SelectedItems({
 
           <div className="mt-6 border-t border-[#edf0ed] pt-5">
             <div className="flex items-center justify-between">
-              <span className="text-sm text-[#69716b]">
-                Total items
-              </span>
+              <span className="text-sm text-[#69716b]">Total items</span>
 
-              <span className="text-sm font-semibold">
-                {totalQuantity}
-              </span>
+              <span className="text-sm font-semibold">{totalQuantity}</span>
             </div>
           </div>
         </>
@@ -175,9 +167,7 @@ export default function SelectedItems({
         <button
           type="button"
           onClick={onSubmit}
-          disabled={
-            isSubmitting || selectedItems.length === 0
-          }
+          disabled={isSubmitting || selectedItems.length === 0}
           className="group flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-[#173f2a] text-sm font-medium text-white transition hover:bg-[#205436] disabled:cursor-not-allowed disabled:opacity-50"
         >
           {isSubmitting ? (
@@ -185,7 +175,6 @@ export default function SelectedItems({
           ) : (
             <>
               Send quotation request
-
               <span className="text-lg transition-transform group-hover:translate-x-1">
                 →
               </span>
