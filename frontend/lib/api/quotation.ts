@@ -16,3 +16,31 @@ export async function createQuotation(
     },
   );
 }
+
+export async function downloadQuotationExcel(
+  quotationId: string,
+): Promise<Blob> {
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/api/v1/quotations/${quotationId}/excel`,
+  );
+
+  if (!response.ok) {
+    throw new Error("Failed to download Excel quotation");
+  }
+
+  return response.blob();
+}
+
+export async function downloadQuotationWord(
+  quotationId: string,
+): Promise<Blob> {
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/api/v1/quotations/${quotationId}/word`,
+  );
+
+  if (!response.ok) {
+    throw new Error("Failed to download Word quotation");
+  }
+
+  return response.blob();
+}

@@ -5,7 +5,7 @@ import { useState } from "react";
 import { useCategories } from "@/hooks/useCategories";
 import { useProducts } from "@/hooks/useProducts";
 import { useCreateQuotation } from "@/hooks/useCreateQuotation";
-
+import { useDownloadQuotation } from "@/hooks/useDownloadQuotation";
 import type { Product } from "@/types/product";
 
 interface SelectedItem {
@@ -80,14 +80,18 @@ export default function QuotationPage() {
   } = useCreateQuotation();
 
   // ============================================================
+  // DOWNLOAD QUOTATION REQUESTS
+  // ============================================================
+  const { downloadExcel, downloadWord, isDownloadingExcel, isDownloadingWord } =
+    useDownloadQuotation();
+
+  // ============================================================
   // ADD PRODUCT
   // ============================================================
 
   function addProduct(product: Product) {
     setSelectedItems((current) => {
-      const existing = current.find(
-        (item) => item.product.id === product.id,
-      );
+      const existing = current.find((item) => item.product.id === product.id);
 
       if (existing) {
         return current.map((item) =>
@@ -161,9 +165,7 @@ export default function QuotationPage() {
   // ============================================================
 
   function isSelected(productId: string) {
-    return selectedItems.some(
-      (item) => item.product.id === productId,
-    );
+    return selectedItems.some((item) => item.product.id === productId);
   }
 
   // ============================================================
@@ -211,10 +213,7 @@ export default function QuotationPage() {
         },
 
         onError: (error) => {
-          console.error(
-            "Quotation submission failed:",
-            error,
-          );
+          console.error("Quotation submission failed:", error);
         },
       },
     );
@@ -259,9 +258,7 @@ export default function QuotationPage() {
               Quotation Portal
             </p>
 
-            <p className="text-[11px] text-[#858c86]">
-              Request a quotation
-            </p>
+            <p className="text-[11px] text-[#858c86]">Request a quotation</p>
           </div>
         </div>
 
@@ -303,11 +300,8 @@ export default function QuotationPage() {
         {submittedQuotation ? (
           <section className="mx-auto max-w-2xl rounded-3xl border border-[#dfe4df] bg-white p-8 text-center sm:p-12">
             {/* Success icon */}
-
             <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-[#eef4ef]">
-              <span className="text-2xl text-[#3f8f5f]">
-                ✓
-              </span>
+              <span className="text-2xl text-[#3f8f5f]">✓</span>
             </div>
 
             <p className="mt-6 text-xs font-semibold uppercase tracking-[0.2em] text-[#3f8f5f]">
@@ -319,42 +313,87 @@ export default function QuotationPage() {
             </h2>
 
             <p className="mx-auto mt-4 max-w-lg text-sm leading-6 text-[#69716b]">
-              Thank you, {facilityName}. Our sales team has
-              received your request and will get back to you
-              using the contact details you provided.
+              Thank you, {facilityName}. Our sales team has received your
+              request and will get back to you using the contact details you
+              provided.
             </p>
 
             {/* Request number */}
-
             <div className="mx-auto mt-8 max-w-sm rounded-2xl bg-[#f7f8f6] p-5">
-              <p className="text-xs text-[#858c86]">
-                Request number
-              </p>
+              <p className="text-xs text-[#858c86]">Request number</p>
 
               <p className="mt-2 text-lg font-semibold tracking-wide text-[#173f2a]">
-                {submittedQuotation.quotation?.request_number ??
-                  "Pending"}
+                {submittedQuotation.quotation?.request_number}
               </p>
             </div>
 
             {/* Email confirmation */}
-
             {submittedQuotation.email_sent && (
               <p className="mt-5 text-xs text-[#69716b]">
                 A confirmation has also been sent to{" "}
-                <span className="font-medium text-[#171a17]">
-                  {email}
-                </span>
-                .
+                <span className="font-medium text-[#171a17]">{email}</span>.
               </p>
             )}
 
-            {/* Actions */}
+            {/* Downloads */}
+            <div className="mt-8 border-t border-[#edf0ed] pt-7">
+              <p className="text-sm font-medium">Download your request</p>
 
+              <p className="mt-1 text-xs text-[#858c86]">
+                Keep a copy of your quotation request for your records.
+              </p>
+
+              <div className="mt-5 grid gap-3 sm:grid-cols-2">
+                {/* Excel */}
+                <button
+                  type="button"
+                  onClick={() => downloadExcel(submittedQuotation.quotation.id)}
+                  disabled={isDownloadingExcel}
+                  className="flex h-12 items-center justify-center gap-2 rounded-xl border border-[#dfe4df] bg-white px-5 text-sm font-medium text-[#173f2a] transition hover:border-[#b9cbbb] hover:bg-[#f7f8f6] disabled:cursor-not-allowed disabled:opacity-50"
+                >
+                  {isDownloadingExcel ? (
+                    "Preparing Excel..."
+                  ) : (
+                    <>
+                      <span className="text-base">↓</span>
+                      Download Excel
+                    </>
+                  )}
+                </button>
+
+                {/* Word */}
+                <button
+                  type="button"
+                  onClick={() => downloadWord(submittedQuotation.quotation.id)}
+                  disabled={isDownloadingWord}
+                  className="flex h-12 items-center justify-center gap-2 rounded-xl border border-[#dfe4df] bg-white px-5 text-sm font-medium text-[#173f2a] transition hover:border-[#b9cbbb] hover:bg-[#f7f8f6] disabled:cursor-not-allowed disabled:opacity-50"
+                >
+                  {isDownloadingWord ? (
+                    "Preparing Word..."
+                  ) : (
+                    <>
+                      <span className="text-base">↓</span>
+                      Download Word
+                    </>
+                  )}
+                </button>
+              </div>
+            </div>
+
+            {/* Actions */}
             <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
               <button
                 type="button"
-                onClick={handleCreateAnother}
+                onClick={() => {
+                  setSubmittedQuotation(null);
+                  setSelectedItems([]);
+                  setFacilityName("");
+                  setContactPerson("");
+                  setEmail("");
+                  setPhone("");
+                  setSearch("");
+                  setSelectedCategory("");
+                }}
                 className="h-12 rounded-xl bg-[#173f2a] px-6 text-sm font-medium text-white transition hover:bg-[#205436]"
               >
                 Create another request
@@ -380,9 +419,7 @@ export default function QuotationPage() {
                   01
                 </p>
 
-                <h2 className="mt-2 text-lg font-semibold">
-                  Your details
-                </h2>
+                <h2 className="mt-2 text-lg font-semibold">Your details</h2>
 
                 <p className="mt-1.5 text-sm text-[#858c86]">
                   How can our sales team reach you?
@@ -404,9 +441,7 @@ export default function QuotationPage() {
                     id="facilityName"
                     type="text"
                     value={facilityName}
-                    onChange={(event) =>
-                      setFacilityName(event.target.value)
-                    }
+                    onChange={(event) => setFacilityName(event.target.value)}
                     placeholder="e.g. St. Mary's Hospital"
                     className="h-12 w-full rounded-xl border border-[#dfe4df] bg-[#fafbfa] px-4 text-sm outline-none transition focus:border-[#3f8f5f] focus:bg-white focus:ring-2 focus:ring-[#3f8f5f]/10"
                   />
@@ -426,9 +461,7 @@ export default function QuotationPage() {
                     id="contactPerson"
                     type="text"
                     value={contactPerson}
-                    onChange={(event) =>
-                      setContactPerson(event.target.value)
-                    }
+                    onChange={(event) => setContactPerson(event.target.value)}
                     placeholder="Your full name"
                     className="h-12 w-full rounded-xl border border-[#dfe4df] bg-[#fafbfa] px-4 text-sm outline-none transition focus:border-[#3f8f5f] focus:bg-white focus:ring-2 focus:ring-[#3f8f5f]/10"
                   />
@@ -449,9 +482,7 @@ export default function QuotationPage() {
                       id="email"
                       type="email"
                       value={email}
-                      onChange={(event) =>
-                        setEmail(event.target.value)
-                      }
+                      onChange={(event) => setEmail(event.target.value)}
                       placeholder="you@example.com"
                       className="h-12 w-full rounded-xl border border-[#dfe4df] bg-[#fafbfa] px-4 text-sm outline-none transition focus:border-[#3f8f5f] focus:bg-white focus:ring-2 focus:ring-[#3f8f5f]/10"
                     />
@@ -469,9 +500,7 @@ export default function QuotationPage() {
                       id="phone"
                       type="tel"
                       value={phone}
-                      onChange={(event) =>
-                        setPhone(event.target.value)
-                      }
+                      onChange={(event) => setPhone(event.target.value)}
                       placeholder="+265 ..."
                       className="h-12 w-full rounded-xl border border-[#dfe4df] bg-[#fafbfa] px-4 text-sm outline-none transition focus:border-[#3f8f5f] focus:bg-white focus:ring-2 focus:ring-[#3f8f5f]/10"
                     />
@@ -500,8 +529,7 @@ export default function QuotationPage() {
                   </h2>
 
                   <p className="mt-1.5 text-sm text-[#858c86]">
-                    Search for products and add them to your
-                    request.
+                    Search for products and add them to your request.
                   </p>
                 </div>
 
@@ -511,9 +539,7 @@ export default function QuotationPage() {
                   <input
                     type="search"
                     value={search}
-                    onChange={(event) =>
-                      setSearch(event.target.value)
-                    }
+                    onChange={(event) => setSearch(event.target.value)}
                     placeholder="Search by product name or SKU..."
                     className="h-12 w-full rounded-xl border border-[#dfe4df] bg-[#fafbfa] pl-11 pr-4 text-sm outline-none transition focus:border-[#3f8f5f] focus:bg-white focus:ring-2 focus:ring-[#3f8f5f]/10"
                   />
@@ -542,9 +568,7 @@ export default function QuotationPage() {
                     <button
                       key={category.id}
                       type="button"
-                      onClick={() =>
-                        setSelectedCategory(category.id)
-                      }
+                      onClick={() => setSelectedCategory(category.id)}
                       className={`shrink-0 rounded-full px-4 py-2 text-xs font-medium transition ${
                         selectedCategory === category.id
                           ? "bg-[#173f2a] text-white"
@@ -593,8 +617,7 @@ export default function QuotationPage() {
                           </p>
 
                           <p className="mx-auto mt-2 max-w-xs text-xs leading-5 text-[#858c86]">
-                            Search by product name or SKU to find
-                            what you need.
+                            Search by product name or SKU to find what you need.
                           </p>
                         </div>
                       </div>
@@ -605,9 +628,7 @@ export default function QuotationPage() {
                     search.trim() !== "" &&
                     products.length === 0 && (
                       <div className="rounded-2xl bg-[#fafbfa] p-8 text-center">
-                        <p className="text-sm font-medium">
-                          No products found
-                        </p>
+                        <p className="text-sm font-medium">No products found</p>
 
                         <p className="mt-1 text-xs text-[#858c86]">
                           Try a different product name or SKU.
@@ -636,18 +657,14 @@ export default function QuotationPage() {
 
                         <button
                           type="button"
-                          onClick={() =>
-                            addProduct(product)
-                          }
+                          onClick={() => addProduct(product)}
                           className={`shrink-0 rounded-xl px-4 py-2 text-xs font-medium transition ${
                             isSelected(product.id)
                               ? "bg-[#eef4ef] text-[#3f8f5f]"
                               : "bg-[#173f2a] text-white hover:bg-[#205436]"
                           }`}
                         >
-                          {isSelected(product.id)
-                            ? "Added"
-                            : "Add"}
+                          {isSelected(product.id) ? "Added" : "Add"}
                         </button>
                       </div>
                     ))}
@@ -680,9 +697,7 @@ export default function QuotationPage() {
                     {selectedItems.length > 0 && (
                       <span className="rounded-full bg-[#eef4ef] px-3 py-1 text-xs font-semibold text-[#3f8f5f]">
                         {selectedItems.length}{" "}
-                        {selectedItems.length === 1
-                          ? "item"
-                          : "items"}
+                        {selectedItems.length === 1 ? "item" : "items"}
                       </span>
                     )}
                   </div>
@@ -704,8 +719,7 @@ export default function QuotationPage() {
                       </p>
 
                       <p className="mx-auto mt-2 max-w-xs text-xs leading-5 text-[#858c86]">
-                        Add products from the left and
-                        they&apos;ll appear here.
+                        Add products from the left and they&apos;ll appear here.
                       </p>
                     </div>
                   </div>
@@ -730,9 +744,7 @@ export default function QuotationPage() {
 
                             <button
                               type="button"
-                              onClick={() =>
-                                removeProduct(item.product.id)
-                              }
+                              onClick={() => removeProduct(item.product.id)}
                               className="shrink-0 text-xs text-[#9a6b6b] transition hover:text-red-700"
                             >
                               Remove
@@ -748,9 +760,7 @@ export default function QuotationPage() {
                               <button
                                 type="button"
                                 onClick={() =>
-                                  decreaseQuantity(
-                                    item.product.id,
-                                  )
+                                  decreaseQuantity(item.product.id)
                                 }
                                 className="flex h-9 w-9 items-center justify-center text-[#69716b] transition hover:text-[#173f2a]"
                               >
@@ -764,9 +774,7 @@ export default function QuotationPage() {
                               <button
                                 type="button"
                                 onClick={() =>
-                                  increaseQuantity(
-                                    item.product.id,
-                                  )
+                                  increaseQuantity(item.product.id)
                                 }
                                 className="flex h-9 w-9 items-center justify-center text-[#69716b] transition hover:text-[#173f2a]"
                               >
@@ -788,8 +796,7 @@ export default function QuotationPage() {
 
                         <span className="text-sm font-semibold">
                           {selectedItems.reduce(
-                            (total, item) =>
-                              total + item.quantity,
+                            (total, item) => total + item.quantity,
                             0,
                           )}
                         </span>
@@ -804,8 +811,7 @@ export default function QuotationPage() {
                   {submitError && (
                     <div className="mb-4 rounded-2xl border border-red-200 bg-red-50 p-4">
                       <p className="text-sm font-medium text-red-700">
-                        We couldn&apos;t submit your quotation
-                        request.
+                        We couldn&apos;t submit your quotation request.
                       </p>
 
                       <p className="mt-1 text-xs text-red-600">
@@ -819,10 +825,7 @@ export default function QuotationPage() {
                   <button
                     type="button"
                     onClick={handleSubmitQuotation}
-                    disabled={
-                      isSubmitting ||
-                      selectedItems.length === 0
-                    }
+                    disabled={isSubmitting || selectedItems.length === 0}
                     className="group flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-[#173f2a] text-sm font-medium text-white transition hover:bg-[#205436] disabled:cursor-not-allowed disabled:opacity-50"
                   >
                     {isSubmitting ? (
@@ -830,7 +833,6 @@ export default function QuotationPage() {
                     ) : (
                       <>
                         Send quotation request
-
                         <span className="text-lg transition-transform group-hover:translate-x-1">
                           →
                         </span>
@@ -841,8 +843,7 @@ export default function QuotationPage() {
                   <p className="mt-3 text-center text-[11px] leading-5 text-[#858c86]">
                     Your request will be sent to our sales team.
                     <br />
-                    They will contact you using the details
-                    provided.
+                    They will contact you using the details provided.
                   </p>
                 </div>
               </section>
