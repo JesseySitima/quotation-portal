@@ -1,4 +1,5 @@
 import type { Product } from "@/types/product";
+import { useState } from "react";
 
 export interface SelectedItem {
   product: Product;
@@ -33,6 +34,10 @@ export default function SelectedItems({
   const totalQuantity = selectedItems.reduce(
     (total, item) => total + item.quantity,
     0,
+  );
+
+  const [quantityInputs, setQuantityInputs] = useState<Record<string, string>>(
+    {},
   );
 
   return (
@@ -105,7 +110,18 @@ export default function SelectedItems({
                   <div className="flex items-center rounded-xl border border-[#dfe4df]">
                     <button
                       type="button"
-                      onClick={() => onDecrease(item.product.id)}
+                      onClick={() => {
+                        const newQuantity = item.quantity - 1;
+
+                        if (newQuantity >= 1) {
+                          onDecrease(item.product.id);
+
+                          setQuantityInputs((current) => ({
+                            ...current,
+                            [item.product.id]: String(newQuantity),
+                          }));
+                        }
+                      }}
                       className="flex h-9 w-9 items-center justify-center text-[#69716b] transition hover:text-[#173f2a]"
                     >
                       −
@@ -114,19 +130,51 @@ export default function SelectedItems({
                     <input
                       type="number"
                       min="1"
-                      value={item.quantity}
+                      value={
+                        quantityInputs[item.product.id] ?? String(item.quantity)
+                      }
                       onChange={(event) => {
-                        const value = Number(event.target.value);
+                        const value = event.target.value;
 
-                        if (value >= 1) {
-                          onQuantityChange(item.product.id, value);
+                        setQuantityInputs((current) => ({
+                          ...current,
+                          [item.product.id]: value,
+                        }));
+
+                        if (value === "") {
+                          return;
+                        }
+
+                        const quantity = Number(value);
+
+                        if (Number.isInteger(quantity) && quantity >= 1) {
+                          onQuantityChange(item.product.id, quantity);
+                        }
+                      }}
+                      onBlur={() => {
+                        const value = quantityInputs[item.product.id];
+
+                        if (!value || Number(value) < 1) {
+                          setQuantityInputs((current) => ({
+                            ...current,
+                            [item.product.id]: String(item.quantity),
+                          }));
                         }
                       }}
                       className="h-9 w-16 border-x border-[#dfe4df] bg-white text-center text-sm font-medium outline-none focus:bg-[#fafbfa]"
                     />
                     <button
                       type="button"
-                      onClick={() => onIncrease(item.product.id)}
+                      onClick={() => {
+                        const newQuantity = item.quantity + 1;
+
+                        onIncrease(item.product.id);
+
+                        setQuantityInputs((current) => ({
+                          ...current,
+                          [item.product.id]: String(newQuantity),
+                        }));
+                      }}
                       className="flex h-9 w-9 items-center justify-center text-[#69716b] transition hover:text-[#173f2a]"
                     >
                       +
