@@ -235,9 +235,7 @@ export default function SelectedItems({
           ) : (
             <>
               Send quotation request
-              <span className="text-lg transition-transform group-hover:translate-x-1">
-                →
-              </span>
+            
             </>
           )}
         </button>

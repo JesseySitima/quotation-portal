@@ -260,9 +260,9 @@ export default function QuotationPage() {
         rightContent={
           <a
             href="/"
-            className="text-xs text-[#69716b] transition-colors hover:text-[#006BB4]"
+            className="group flex items-center gap-2 rounded-xl border border-[#dfe4df] bg-white px-4 py-2.5 text-xs font-medium shadow-sm transition-all duration-200 hover:border-[#006BB4]/30 hover:text-[#006BB4] hover:shadow-md"
           >
-            ← Back
+            Back
           </a>
         }
       />

@@ -47,9 +47,7 @@ export default function Home() {
                 className="group flex h-14 items-center gap-3 rounded-2xl bg-[#006BB4] px-8 text-sm font-medium text-white shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:bg-[#005A96] hover:shadow-lg"
               >
                 Start a quotation request
-                <span className="text-lg transition-transform duration-200 group-hover:translate-x-1">
-                  →
-                </span>
+              
               </Link>
 
               <p className="mt-3 text-xs text-[#8a918b]">
