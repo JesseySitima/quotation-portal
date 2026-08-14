@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Quotation Portal",
+  title: "AMM Quotation Portal",
   description: "Simple quotation requests made easy.",
 };
 
