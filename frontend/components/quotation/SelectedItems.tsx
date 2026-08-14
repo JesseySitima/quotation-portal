@@ -49,9 +49,7 @@ export default function SelectedItems({
               YOUR REQUEST
             </p>
 
-            <h2 className="mt-2 text-lg font-semibold">
-              Selected items
-            </h2>
+            <h2 className="mt-2 text-lg font-semibold">Selected items</h2>
           </div>
 
           {selectedItems.length > 0 && (
@@ -90,9 +88,7 @@ export default function SelectedItems({
               <div key={item.product.id} className="py-4 first:pt-0 last:pb-0">
                 <div className="flex items-start justify-between gap-3">
                   <div className="min-w-0">
-                    <p className="text-sm font-medium">
-                      {item.product.name}
-                    </p>
+                    <p className="text-sm font-medium">{item.product.name}</p>
 
                     <p className="mt-1 text-xs text-[#858c86]">
                       {item.product.unit}
@@ -109,9 +105,7 @@ export default function SelectedItems({
                 </div>
 
                 <div className="mt-3 flex items-center justify-between">
-                  <span className="text-xs text-[#858c86]">
-                    Quantity
-                  </span>
+                  <span className="text-xs text-[#858c86]">Quantity</span>
 
                   <div className="flex items-center rounded-xl border border-[#dfe4df]">
                     <button
@@ -124,7 +118,7 @@ export default function SelectedItems({
 
                           setQuantityInputs((current) => ({
                             ...current,
-                            [item.product.id]: String(newQuantity),
+                            [item.product.id]: newQuantity.toLocaleString(),
                           }));
                         }
                       }}
@@ -134,25 +128,29 @@ export default function SelectedItems({
                     </button>
 
                     <input
-                      type="number"
-                      min="1"
+                      type="text"
+                      inputMode="numeric"
                       value={
-                        quantityInputs[item.product.id] ??
-                        String(item.quantity)
+                        quantityInputs[item.product.id] !== undefined
+                          ? quantityInputs[item.product.id]
+                          : item.quantity.toLocaleString()
                       }
                       onChange={(event) => {
-                        const value = event.target.value;
+                        // Remove commas and anything that isn't a digit
+                        const rawValue = event.target.value
+                          .replace(/,/g, "")
+                          .replace(/\D/g, "");
 
                         setQuantityInputs((current) => ({
                           ...current,
-                          [item.product.id]: value,
+                          [item.product.id]: rawValue,
                         }));
 
-                        if (value === "") {
+                        if (rawValue === "") {
                           return;
                         }
 
-                        const quantity = Number(value);
+                        const quantity = Number(rawValue);
 
                         if (Number.isInteger(quantity) && quantity >= 1) {
                           onQuantityChange(item.product.id, quantity);
@@ -161,16 +159,47 @@ export default function SelectedItems({
                       onBlur={() => {
                         const value = quantityInputs[item.product.id];
 
-                        if (!value || Number(value) < 1) {
+                        if (!value) {
                           setQuantityInputs((current) => ({
                             ...current,
-                            [item.product.id]: String(item.quantity),
+                            [item.product.id]: item.quantity.toLocaleString(),
                           }));
+                          return;
                         }
-                      }}
-                      className="h-9 w-16 border-x border-[#dfe4df] bg-white text-center text-sm font-medium outline-none focus:bg-[#fafbfa] focus:text-[#006BB4]"
-                    />
 
+                        const quantity = Number(value.replace(/,/g, ""));
+
+                        if (!Number.isInteger(quantity) || quantity < 1) {
+                          setQuantityInputs((current) => ({
+                            ...current,
+                            [item.product.id]: item.quantity.toLocaleString(),
+                          }));
+                          return;
+                        }
+
+                        setQuantityInputs((current) => ({
+                          ...current,
+                          [item.product.id]: quantity.toLocaleString(),
+                        }));
+
+                        onQuantityChange(item.product.id, quantity);
+                      }}
+                      onFocus={(event) => {
+                        // Remove commas while editing
+                        const rawValue = event.target.value.replace(/,/g, "");
+
+                        setQuantityInputs((current) => ({
+                          ...current,
+                          [item.product.id]: rawValue,
+                        }));
+
+                        // Put cursor at the end
+                        requestAnimationFrame(() => {
+                          event.target.select();
+                        });
+                      }}
+                      className="h-9 w-20 border-x border-[#dfe4df] bg-white text-center text-sm font-medium outline-none focus:bg-[#fafbfa] focus:text-[#006BB4]"
+                    />
                     <button
                       type="button"
                       onClick={() => {
@@ -180,7 +209,7 @@ export default function SelectedItems({
 
                         setQuantityInputs((current) => ({
                           ...current,
-                          [item.product.id]: String(newQuantity),
+                          [item.product.id]: newQuantity.toLocaleString(),
                         }));
                       }}
                       className="flex h-9 w-9 items-center justify-center text-[#69716b] transition hover:text-[#006BB4]"
@@ -195,12 +224,10 @@ export default function SelectedItems({
 
           <div className="mt-6 border-t border-[#edf0ed] pt-5">
             <div className="flex items-center justify-between">
-              <span className="text-sm text-[#69716b]">
-                Total items
-              </span>
+              <span className="text-sm text-[#69716b]">Total items</span>
 
               <span className="text-sm font-semibold">
-                {totalQuantity}
+                {totalQuantity.toLocaleString()}
               </span>
             </div>
           </div>
@@ -230,14 +257,7 @@ export default function SelectedItems({
           disabled={isSubmitting || selectedItems.length === 0}
           className="group flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-[#006BB4] text-sm font-medium text-white transition hover:bg-[#005A96] disabled:cursor-not-allowed disabled:opacity-50"
         >
-          {isSubmitting ? (
-            "Sending request..."
-          ) : (
-            <>
-              Send quotation request
-            
-            </>
-          )}
+          {isSubmitting ? "Sending request..." : <>Send quotation request</>}
         </button>
 
         <p className="mt-3 text-center text-[11px] leading-5 text-[#858c86]">
