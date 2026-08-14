@@ -24,7 +24,7 @@ export default function QuotationHeader({
   </div>
 
   <div>
-    <p className="text-sm font-semibold tracking-tight">
+    <p className="text-lg text-[#006BB4] font-semibold tracking-tight">
       action medeor Malawi Quotation Portal
     </p>
 

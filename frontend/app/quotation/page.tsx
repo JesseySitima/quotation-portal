@@ -34,6 +34,7 @@ export default function QuotationPage() {
   const [errors, setErrors] = useState<QuotationFormErrors>({});
   const [hasSubmitted, setHasSubmitted] = useState(false);
 
+  const [validationToast, setValidationToast] = useState<string | null>(null);
   // ============================================================
   // PRODUCT SEARCH
   // ============================================================
@@ -184,8 +185,19 @@ export default function QuotationPage() {
     setErrors(validationErrors);
 
     if (Object.keys(validationErrors).length > 0) {
+      setValidationToast(
+        "Please complete the required fields before submitting your request.",
+      );
+
+      // Automatically hide after 4 seconds
+      setTimeout(() => {
+        setValidationToast(null);
+      }, 4000);
+
       return;
     }
+
+    setValidationToast(null);
 
     submitQuotation(
       {
@@ -202,7 +214,6 @@ export default function QuotationPage() {
       {
         onSuccess: (response) => {
           console.log("Quotation response:", response);
-
           setSubmittedQuotation(response);
         },
 
@@ -267,6 +278,39 @@ export default function QuotationPage() {
         }
       />
 
+      {/* Validation Toast */}
+      {validationToast && (
+        <div className="fixed right-6 top-6 z-50 w-[calc(100%-3rem)] max-w-sm">
+          <div className="flex items-start gap-3 rounded-2xl border border-[#006BB4]/20 bg-white p-4 shadow-xl">
+            {/* Icon */}
+            <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#fee2e2]">
+              <span className="text-sm font-bold text-[#dc2626]">!</span>
+            </div>
+
+            {/* Message */}
+            <div className="min-w-0 flex-1">
+              <p className="text-sm font-semibold text-[#171a17]">
+                Almost there
+              </p>
+
+              <p className="mt-1 text-xs leading-5 text-[#69716b]">
+                {validationToast}
+              </p>
+            </div>
+
+            {/* Close */}
+            <button
+              type="button"
+              onClick={() => setValidationToast(null)}
+              className="shrink-0 text-lg leading-none text-[#858c86] transition hover:text-[#171a17]"
+              aria-label="Close notification"
+            >
+              ×
+            </button>
+          </div>
+        </div>
+      )}
+
       <section className="mx-auto w-full max-w-6xl px-6 pb-20 pt-8 lg:px-8">
         {submittedQuotation ? (
           <>
@@ -300,7 +344,7 @@ export default function QuotationPage() {
                 Request a quotation
               </p>
 
-              <h1 className="mt-4 text-4xl font-semibold tracking-[-0.04em] sm:text-5xl">
+              <h1 className="mt-4 text-2xl font-semibold tracking-[-0.04em] sm:text-3xl">
                 Tell us what you need.
               </h1>
 

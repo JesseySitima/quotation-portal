@@ -173,7 +173,7 @@ export default function ProductSearch({
                 </p>
 
                 <p className="mt-1 text-xs text-[#858c86]">
-                  {product.sku} · {product.unit}
+                  {product.unit}
                 </p>
               </div>
 

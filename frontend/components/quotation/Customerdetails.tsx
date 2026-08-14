@@ -51,7 +51,7 @@ export default function CustomerDetails({
             htmlFor="facilityName"
             className="mb-2 block text-sm font-medium"
           >
-            Facility / Company
+            Facility Name
           </label>
 
           <input
@@ -115,7 +115,7 @@ export default function CustomerDetails({
               htmlFor="email"
               className="mb-2 block text-sm font-medium"
             >
-              Email address
+              Email address (Optional)
             </label>
 
             <input
