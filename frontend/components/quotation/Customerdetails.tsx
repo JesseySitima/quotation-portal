@@ -31,7 +31,7 @@ export default function CustomerDetails({
   return (
     <section className="rounded-3xl border border-[#dfe4df] bg-white p-6 sm:p-8">
       <div className="mb-7">
-        <p className="text-[11px] font-bold tracking-[0.16em] text-[#3f8f5f]">
+        <p className="text-[11px] font-bold tracking-[0.16em] text-[#006BB4]">
           01
         </p>
 
@@ -45,7 +45,6 @@ export default function CustomerDetails({
       </div>
 
       <div className="space-y-5">
-
         {/* Facility */}
         <div>
           <label
@@ -66,7 +65,7 @@ export default function CustomerDetails({
             className={`h-12 w-full rounded-xl border bg-[#fafbfa] px-4 text-sm outline-none transition focus:bg-white focus:ring-2 ${
               errors.facilityName
                 ? "border-red-400 focus:border-red-500 focus:ring-red-500/10"
-                : "border-[#dfe4df] focus:border-[#3f8f5f] focus:ring-[#3f8f5f]/10"
+                : "border-[#dfe4df] focus:border-[#006BB4] focus:ring-[#006BB4]/10"
             }`}
           />
 
@@ -97,7 +96,7 @@ export default function CustomerDetails({
             className={`h-12 w-full rounded-xl border bg-[#fafbfa] px-4 text-sm outline-none transition focus:bg-white focus:ring-2 ${
               errors.contactPerson
                 ? "border-red-400 focus:border-red-500 focus:ring-red-500/10"
-                : "border-[#dfe4df] focus:border-[#3f8f5f] focus:ring-[#3f8f5f]/10"
+                : "border-[#dfe4df] focus:border-[#006BB4] focus:ring-[#006BB4]/10"
             }`}
           />
 
@@ -110,7 +109,6 @@ export default function CustomerDetails({
 
         {/* Email / Phone */}
         <div className="grid gap-5 sm:grid-cols-2">
-
           {/* Email */}
           <div>
             <label
@@ -131,7 +129,7 @@ export default function CustomerDetails({
               className={`h-12 w-full rounded-xl border bg-[#fafbfa] px-4 text-sm outline-none transition focus:bg-white focus:ring-2 ${
                 errors.email
                   ? "border-red-400 focus:border-red-500 focus:ring-red-500/10"
-                  : "border-[#dfe4df] focus:border-[#3f8f5f] focus:ring-[#3f8f5f]/10"
+                  : "border-[#dfe4df] focus:border-[#006BB4] focus:ring-[#006BB4]/10"
               }`}
             />
 
@@ -162,7 +160,7 @@ export default function CustomerDetails({
               className={`h-12 w-full rounded-xl border bg-[#fafbfa] px-4 text-sm outline-none transition focus:bg-white focus:ring-2 ${
                 errors.phone
                   ? "border-red-400 focus:border-red-500 focus:ring-red-500/10"
-                  : "border-[#dfe4df] focus:border-[#3f8f5f] focus:ring-[#3f8f5f]/10"
+                  : "border-[#dfe4df] focus:border-[#006BB4] focus:ring-[#006BB4]/10"
               }`}
             />
 
@@ -172,7 +170,6 @@ export default function CustomerDetails({
               </p>
             )}
           </div>
-
         </div>
       </div>
     </section>

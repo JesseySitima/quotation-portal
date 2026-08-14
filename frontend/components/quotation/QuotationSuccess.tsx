@@ -27,13 +27,13 @@ export default function QuotationSuccess({
     <section className="mx-auto max-w-2xl rounded-3xl border border-[#dfe4df] bg-white p-8 text-center sm:p-12">
       {/* Success icon */}
 
-      <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-[#eef4ef]">
-        <span className="text-2xl text-[#3f8f5f]">
+      <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-[#EAF4FB]">
+        <span className="text-2xl text-[#006BB4]">
           ✓
         </span>
       </div>
 
-      <p className="mt-6 text-xs font-semibold uppercase tracking-[0.2em] text-[#3f8f5f]">
+      <p className="mt-6 text-xs font-semibold uppercase tracking-[0.2em] text-[#006BB4]">
         Request submitted
       </p>
 
@@ -54,7 +54,7 @@ export default function QuotationSuccess({
           Request number
         </p>
 
-        <p className="mt-2 text-lg font-semibold tracking-wide text-[#173f2a]">
+        <p className="mt-2 text-lg font-semibold tracking-wide text-[#006BB4]">
           {quotation?.request_number}
         </p>
       </div>
@@ -89,7 +89,7 @@ export default function QuotationSuccess({
             type="button"
             onClick={onDownloadExcel}
             disabled={isDownloadingExcel}
-            className="flex h-12 items-center justify-center gap-2 rounded-xl border border-[#dfe4df] bg-white px-5 text-sm font-medium text-[#173f2a] transition hover:border-[#b9cbbb] hover:bg-[#f7f8f6] disabled:cursor-not-allowed disabled:opacity-50"
+            className="flex h-12 items-center justify-center gap-2 rounded-xl border border-[#dfe4df] bg-white px-5 text-sm font-medium text-[#006BB4] transition hover:border-[#9EC7E2] hover:bg-[#EAF4FB] disabled:cursor-not-allowed disabled:opacity-50"
           >
             {isDownloadingExcel ? (
               "Preparing Excel..."
@@ -107,7 +107,7 @@ export default function QuotationSuccess({
             type="button"
             onClick={onDownloadWord}
             disabled={isDownloadingWord}
-            className="flex h-12 items-center justify-center gap-2 rounded-xl border border-[#dfe4df] bg-white px-5 text-sm font-medium text-[#173f2a] transition hover:border-[#b9cbbb] hover:bg-[#f7f8f6] disabled:cursor-not-allowed disabled:opacity-50"
+            className="flex h-12 items-center justify-center gap-2 rounded-xl border border-[#dfe4df] bg-white px-5 text-sm font-medium text-[#006BB4] transition hover:border-[#9EC7E2] hover:bg-[#EAF4FB] disabled:cursor-not-allowed disabled:opacity-50"
           >
             {isDownloadingWord ? (
               "Preparing Word..."
@@ -127,14 +127,14 @@ export default function QuotationSuccess({
         <button
           type="button"
           onClick={onCreateAnother}
-          className="h-12 rounded-xl bg-[#173f2a] px-6 text-sm font-medium text-white transition hover:bg-[#205436]"
+          className="h-12 rounded-xl bg-[#006BB4] px-6 text-sm font-medium text-white transition hover:bg-[#005A96]"
         >
           Create another request
         </button>
 
         <a
           href="/"
-          className="flex h-12 items-center justify-center rounded-xl border border-[#dfe4df] px-6 text-sm font-medium text-[#69716b] transition hover:border-[#b9cbbb] hover:text-[#173f2a]"
+          className="flex h-12 items-center justify-center rounded-xl border border-[#dfe4df] px-6 text-sm font-medium text-[#69716b] transition hover:border-[#9EC7E2] hover:text-[#006BB4]"
         >
           Back to home
         </a>

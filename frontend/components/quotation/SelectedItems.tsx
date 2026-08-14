@@ -45,15 +45,17 @@ export default function SelectedItems({
       <div className="mb-7">
         <div className="flex items-center justify-between">
           <div>
-            <p className="text-[11px] font-bold tracking-[0.16em] text-[#3f8f5f]">
+            <p className="text-[11px] font-bold tracking-[0.16em] text-[#006BB4]">
               YOUR REQUEST
             </p>
 
-            <h2 className="mt-2 text-lg font-semibold">Selected items</h2>
+            <h2 className="mt-2 text-lg font-semibold">
+              Selected items
+            </h2>
           </div>
 
           {selectedItems.length > 0 && (
-            <span className="rounded-full bg-[#eef4ef] px-3 py-1 text-xs font-semibold text-[#3f8f5f]">
+            <span className="rounded-full bg-[#EAF4FB] px-3 py-1 text-xs font-semibold text-[#006BB4]">
               {selectedItems.length}{" "}
               {selectedItems.length === 1 ? "item" : "items"}
             </span>
@@ -68,7 +70,7 @@ export default function SelectedItems({
       {selectedItems.length === 0 ? (
         <div className="flex min-h-[220px] items-center justify-center rounded-2xl border border-dashed border-[#dfe4df] bg-[#fafbfa] p-6 text-center">
           <div>
-            <div className="mx-auto flex h-10 w-10 items-center justify-center rounded-full bg-[#eef4ef] text-[#3f8f5f]">
+            <div className="mx-auto flex h-10 w-10 items-center justify-center rounded-full bg-[#EAF4FB] text-[#006BB4]">
               +
             </div>
 
@@ -88,7 +90,9 @@ export default function SelectedItems({
               <div key={item.product.id} className="py-4 first:pt-0 last:pb-0">
                 <div className="flex items-start justify-between gap-3">
                   <div className="min-w-0">
-                    <p className="text-sm font-medium">{item.product.name}</p>
+                    <p className="text-sm font-medium">
+                      {item.product.name}
+                    </p>
 
                     <p className="mt-1 text-xs text-[#858c86]">
                       {item.product.unit}
@@ -105,7 +109,9 @@ export default function SelectedItems({
                 </div>
 
                 <div className="mt-3 flex items-center justify-between">
-                  <span className="text-xs text-[#858c86]">Quantity</span>
+                  <span className="text-xs text-[#858c86]">
+                    Quantity
+                  </span>
 
                   <div className="flex items-center rounded-xl border border-[#dfe4df]">
                     <button
@@ -122,7 +128,7 @@ export default function SelectedItems({
                           }));
                         }
                       }}
-                      className="flex h-9 w-9 items-center justify-center text-[#69716b] transition hover:text-[#173f2a]"
+                      className="flex h-9 w-9 items-center justify-center text-[#69716b] transition hover:text-[#006BB4]"
                     >
                       −
                     </button>
@@ -131,7 +137,8 @@ export default function SelectedItems({
                       type="number"
                       min="1"
                       value={
-                        quantityInputs[item.product.id] ?? String(item.quantity)
+                        quantityInputs[item.product.id] ??
+                        String(item.quantity)
                       }
                       onChange={(event) => {
                         const value = event.target.value;
@@ -161,8 +168,9 @@ export default function SelectedItems({
                           }));
                         }
                       }}
-                      className="h-9 w-16 border-x border-[#dfe4df] bg-white text-center text-sm font-medium outline-none focus:bg-[#fafbfa]"
+                      className="h-9 w-16 border-x border-[#dfe4df] bg-white text-center text-sm font-medium outline-none focus:bg-[#fafbfa] focus:text-[#006BB4]"
                     />
+
                     <button
                       type="button"
                       onClick={() => {
@@ -175,7 +183,7 @@ export default function SelectedItems({
                           [item.product.id]: String(newQuantity),
                         }));
                       }}
-                      className="flex h-9 w-9 items-center justify-center text-[#69716b] transition hover:text-[#173f2a]"
+                      className="flex h-9 w-9 items-center justify-center text-[#69716b] transition hover:text-[#006BB4]"
                     >
                       +
                     </button>
@@ -187,9 +195,13 @@ export default function SelectedItems({
 
           <div className="mt-6 border-t border-[#edf0ed] pt-5">
             <div className="flex items-center justify-between">
-              <span className="text-sm text-[#69716b]">Total items</span>
+              <span className="text-sm text-[#69716b]">
+                Total items
+              </span>
 
-              <span className="text-sm font-semibold">{totalQuantity}</span>
+              <span className="text-sm font-semibold">
+                {totalQuantity}
+              </span>
             </div>
           </div>
         </>
@@ -216,7 +228,7 @@ export default function SelectedItems({
           type="button"
           onClick={onSubmit}
           disabled={isSubmitting || selectedItems.length === 0}
-          className="group flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-[#173f2a] text-sm font-medium text-white transition hover:bg-[#205436] disabled:cursor-not-allowed disabled:opacity-50"
+          className="group flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-[#006BB4] text-sm font-medium text-white transition hover:bg-[#005A96] disabled:cursor-not-allowed disabled:opacity-50"
         >
           {isSubmitting ? (
             "Sending request..."

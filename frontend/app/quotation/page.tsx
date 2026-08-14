@@ -261,7 +261,7 @@ export default function QuotationPage() {
         {/* Intro */}
 
         <div className="mb-10">
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#3f8f5f]">
+          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#006BB4]">
             Request a quotation
           </p>
 

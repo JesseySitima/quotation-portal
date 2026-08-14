@@ -39,7 +39,7 @@ export default function ProductSearch({
   return (
     <section className="rounded-3xl border border-[#dfe4df] bg-white p-6 sm:p-8">
       <div className="mb-7">
-        <p className="text-[11px] font-bold tracking-[0.16em] text-[#3f8f5f]">
+        <p className="text-[11px] font-bold tracking-[0.16em] text-[#006BB4]">
           02
         </p>
 
@@ -53,7 +53,6 @@ export default function ProductSearch({
       </div>
 
       {/* Search */}
-
       <div className="relative">
         <input
           type="search"
@@ -62,7 +61,7 @@ export default function ProductSearch({
             onSearchChange(event.target.value)
           }
           placeholder="Search by product name or SKU..."
-          className="h-12 w-full rounded-xl border border-[#dfe4df] bg-[#fafbfa] pl-11 pr-4 text-sm outline-none transition focus:border-[#3f8f5f] focus:bg-white focus:ring-2 focus:ring-[#3f8f5f]/10"
+          className="h-12 w-full rounded-xl border border-[#dfe4df] bg-[#fafbfa] pl-11 pr-4 text-sm outline-none transition focus:border-[#006BB4] focus:bg-white focus:ring-2 focus:ring-[#006BB4]/10"
         />
 
         <span className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-[#858c86]">
@@ -71,15 +70,14 @@ export default function ProductSearch({
       </div>
 
       {/* Categories */}
-
       <div className="mt-4 flex gap-2 overflow-x-auto pb-1">
         <button
           type="button"
           onClick={() => onCategoryChange("")}
           className={`shrink-0 rounded-full px-4 py-2 text-xs font-medium transition ${
             selectedCategory === ""
-              ? "bg-[#173f2a] text-white"
-              : "border border-[#dfe4df] bg-white text-[#69716b] hover:border-[#b9cbbb]"
+              ? "bg-[#006BB4] text-white"
+              : "border border-[#dfe4df] bg-white text-[#69716b] hover:border-[#9ec7e2]"
           }`}
         >
           All
@@ -94,8 +92,8 @@ export default function ProductSearch({
             }
             className={`shrink-0 rounded-full px-4 py-2 text-xs font-medium transition ${
               selectedCategory === category.id
-                ? "bg-[#173f2a] text-white"
-                : "border border-[#dfe4df] bg-white text-[#69716b] hover:border-[#b9cbbb]"
+                ? "bg-[#006BB4] text-white"
+                : "border border-[#dfe4df] bg-white text-[#69716b] hover:border-[#9ec7e2]"
             }`}
           >
             {category.name}
@@ -104,7 +102,6 @@ export default function ProductSearch({
       </div>
 
       {/* Products */}
-
       <div className="mt-5 space-y-2">
         {productsLoading && (
           <div className="rounded-2xl bg-[#fafbfa] p-8 text-center">
@@ -131,7 +128,7 @@ export default function ProductSearch({
           search.trim() === "" && (
             <div className="flex min-h-[240px] items-center justify-center rounded-2xl border border-dashed border-[#dfe4df] bg-[#fafbfa] p-8 text-center">
               <div>
-                <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-[#eef4ef] text-[#3f8f5f]">
+                <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-[#EAF4FB] text-[#006BB4]">
                   ⌕
                 </div>
 
@@ -168,7 +165,7 @@ export default function ProductSearch({
           products.map((product) => (
             <div
               key={product.id}
-              className="flex items-center justify-between gap-4 rounded-2xl border border-[#e5e9e5] p-4 transition hover:border-[#cbd8cd]"
+              className="flex items-center justify-between gap-4 rounded-2xl border border-[#e5e9e5] p-4 transition hover:border-[#b9d5e8]"
             >
               <div className="min-w-0">
                 <p className="truncate text-sm font-medium">
@@ -185,8 +182,8 @@ export default function ProductSearch({
                 onClick={() => onAddProduct(product)}
                 className={`shrink-0 rounded-xl px-4 py-2 text-xs font-medium transition ${
                   isSelected(product.id)
-                    ? "bg-[#eef4ef] text-[#3f8f5f]"
-                    : "bg-[#173f2a] text-white hover:bg-[#205436]"
+                    ? "bg-[#EAF4FB] text-[#006BB4]"
+                    : "bg-[#006BB4] text-white hover:bg-[#005A96]"
                 }`}
               >
                 {isSelected(product.id) ? "Added" : "Add"}
