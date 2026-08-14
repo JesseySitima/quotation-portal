@@ -203,7 +203,7 @@ export default function QuotationPage() {
       {
         facility_name: facilityName.trim(),
         contact_person: contactPerson.trim(),
-        email: email.trim(),
+        email: email.trim() || null,
         phone: phone.trim(),
         notes: "",
         items: selectedItems.map((item) => ({

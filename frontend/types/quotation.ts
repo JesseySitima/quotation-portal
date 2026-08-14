@@ -6,7 +6,7 @@ export interface QuotationItemRequest {
 export interface CreateQuotationRequest {
   facility_name: string;
   contact_person: string;
-  email: string;
+  email: string | null;
   phone: string;
   notes: string;
   items: QuotationItemRequest[];
@@ -26,7 +26,7 @@ export interface QuotationResponse {
   request_number: string;
   facility_name: string;
   contact_person: string;
-  email: string;
+  email: string | null;
   phone: string;
   notes: string | null;
   status: string;
