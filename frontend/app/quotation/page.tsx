@@ -253,138 +253,148 @@ export default function QuotationPage() {
   // PAGE
   // ============================================================
 
- return (
-  <main className="min-h-screen bg-[#f7f8f6] text-[#171a17]">
-    <QuotationHeader />
+  return (
+    <main className="min-h-screen bg-[#f7f8f6] text-[#171a17]">
+      <QuotationHeader
+        subtitle="Request a quotation"
+        rightContent={
+          <a
+            href="/"
+            className="text-xs text-[#69716b] transition-colors hover:text-[#006BB4]"
+          >
+            ← Back
+          </a>
+        }
+      />
 
-    <section className="mx-auto w-full max-w-6xl px-6 pb-20 pt-8 lg:px-8">
-      {submittedQuotation ? (
-        <>
-          {/* ==================================================== */}
-          {/* SUCCESS                                               */}
-          {/* ==================================================== */}
+      <section className="mx-auto w-full max-w-6xl px-6 pb-20 pt-8 lg:px-8">
+        {submittedQuotation ? (
+          <>
+            {/* ==================================================== */}
+            {/* SUCCESS                                               */}
+            {/* ==================================================== */}
 
-          <QuotationSuccess
-            quotation={submittedQuotation.quotation}
-            facilityName={facilityName}
-            email={email}
-            isDownloadingExcel={isDownloadingExcel}
-            isDownloadingWord={isDownloadingWord}
-            onDownloadExcel={() =>
-              downloadExcel(submittedQuotation.quotation.id)
-            }
-            onDownloadWord={() =>
-              downloadWord(submittedQuotation.quotation.id)
-            }
-            onCreateAnother={handleCreateAnother}
-          />
-        </>
-      ) : (
-        <>
-          {/* ==================================================== */}
-          {/* INTRO                                                 */}
-          {/* ==================================================== */}
-
-          <div className="mb-10">
-            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#006BB4]">
-              Request a quotation
-            </p>
-
-            <h1 className="mt-4 text-4xl font-semibold tracking-[-0.04em] sm:text-5xl">
-              Tell us what you need.
-            </h1>
-
-            <p className="mt-4 max-w-xl text-base leading-7 text-[#69716b]">
-              Add the products you&apos;d like our sales team to quote.
-            </p>
-          </div>
-
-          {/* ==================================================== */}
-          {/* CUSTOMER DETAILS                                      */}
-          {/* ==================================================== */}
-
-          <CustomerDetails
-            facilityName={facilityName}
-            contactPerson={contactPerson}
-            email={email}
-            phone={phone}
-            errors={errors}
-            onFacilityNameChange={(value) => {
-              setFacilityName(value);
-
-              if (hasSubmitted) {
-                setErrors((current) => ({
-                  ...current,
-                  facilityName: undefined,
-                }));
+            <QuotationSuccess
+              quotation={submittedQuotation.quotation}
+              facilityName={facilityName}
+              email={email}
+              isDownloadingExcel={isDownloadingExcel}
+              isDownloadingWord={isDownloadingWord}
+              onDownloadExcel={() =>
+                downloadExcel(submittedQuotation.quotation.id)
               }
-            }}
-            onContactPersonChange={(value) => {
-              setContactPerson(value);
-
-              if (hasSubmitted) {
-                setErrors((current) => ({
-                  ...current,
-                  contactPerson: undefined,
-                }));
+              onDownloadWord={() =>
+                downloadWord(submittedQuotation.quotation.id)
               }
-            }}
-            onEmailChange={(value) => {
-              setEmail(value);
+              onCreateAnother={handleCreateAnother}
+            />
+          </>
+        ) : (
+          <>
+            {/* ==================================================== */}
+            {/* INTRO                                                 */}
+            {/* ==================================================== */}
 
-              if (hasSubmitted) {
-                setErrors((current) => ({
-                  ...current,
-                  email: undefined,
-                }));
-              }
-            }}
-            onPhoneChange={(value) => {
-              setPhone(value);
+            <div className="mb-10">
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#006BB4]">
+                Request a quotation
+              </p>
 
-              if (hasSubmitted) {
-                setErrors((current) => ({
-                  ...current,
-                  phone: undefined,
-                }));
-              }
-            }}
-          />
+              <h1 className="mt-4 text-4xl font-semibold tracking-[-0.04em] sm:text-5xl">
+                Tell us what you need.
+              </h1>
 
-          {/* ==================================================== */}
-          {/* PRODUCTS                                               */}
-          {/* ==================================================== */}
+              <p className="mt-4 max-w-xl text-base leading-7 text-[#69716b]">
+                Add the products you&apos;d like our sales team to quote.
+              </p>
+            </div>
 
-          <div className="mt-6 grid gap-6 lg:grid-cols-[1.15fr_0.85fr]">
-            <ProductSearch
-              search={search}
-              selectedCategory={selectedCategory}
-              categories={categories}
-              products={products}
-              productsLoading={productsLoading}
-              productsFetching={productsFetching}
-              productsError={productsError}
-              onSearchChange={setSearch}
-              onCategoryChange={setSelectedCategory}
-              onAddProduct={addProduct}
-              isSelected={isSelected}
+            {/* ==================================================== */}
+            {/* CUSTOMER DETAILS                                      */}
+            {/* ==================================================== */}
+
+            <CustomerDetails
+              facilityName={facilityName}
+              contactPerson={contactPerson}
+              email={email}
+              phone={phone}
+              errors={errors}
+              onFacilityNameChange={(value) => {
+                setFacilityName(value);
+
+                if (hasSubmitted) {
+                  setErrors((current) => ({
+                    ...current,
+                    facilityName: undefined,
+                  }));
+                }
+              }}
+              onContactPersonChange={(value) => {
+                setContactPerson(value);
+
+                if (hasSubmitted) {
+                  setErrors((current) => ({
+                    ...current,
+                    contactPerson: undefined,
+                  }));
+                }
+              }}
+              onEmailChange={(value) => {
+                setEmail(value);
+
+                if (hasSubmitted) {
+                  setErrors((current) => ({
+                    ...current,
+                    email: undefined,
+                  }));
+                }
+              }}
+              onPhoneChange={(value) => {
+                setPhone(value);
+
+                if (hasSubmitted) {
+                  setErrors((current) => ({
+                    ...current,
+                    phone: undefined,
+                  }));
+                }
+              }}
             />
 
-            <SelectedItems
-              selectedItems={selectedItems}
-              isSubmitting={isSubmitting}
-              submitError={submitError}
-              submissionError={submissionError}
-              onIncrease={increaseQuantity}
-              onDecrease={decreaseQuantity}
-              onQuantityChange={changeQuantity}
-              onRemove={removeProduct}
-              onSubmit={handleSubmitQuotation}
-            />
-          </div>
-        </>
-      )}
-    </section>
-  </main>
-);
+            {/* ==================================================== */}
+            {/* PRODUCTS                                               */}
+            {/* ==================================================== */}
+
+            <div className="mt-6 grid gap-6 lg:grid-cols-[1.15fr_0.85fr]">
+              <ProductSearch
+                search={search}
+                selectedCategory={selectedCategory}
+                categories={categories}
+                products={products}
+                productsLoading={productsLoading}
+                productsFetching={productsFetching}
+                productsError={productsError}
+                onSearchChange={setSearch}
+                onCategoryChange={setSelectedCategory}
+                onAddProduct={addProduct}
+                isSelected={isSelected}
+              />
+
+              <SelectedItems
+                selectedItems={selectedItems}
+                isSubmitting={isSubmitting}
+                submitError={submitError}
+                submissionError={submissionError}
+                onIncrease={increaseQuantity}
+                onDecrease={decreaseQuantity}
+                onQuantityChange={changeQuantity}
+                onRemove={removeProduct}
+                onSubmit={handleSubmitQuotation}
+              />
+            </div>
+          </>
+        )}
+      </section>
+    </main>
+  );
 }
