@@ -409,7 +409,7 @@ export default function QuotationPage() {
             {/* PRODUCTS                                               */}
             {/* ==================================================== */}
 
-            <div className="mt-6 grid gap-6 lg:grid-cols-[1.15fr_0.85fr]">
+            <div className="mt-6 grid min-w-0 gap-6 lg:grid-cols-[1.15fr_0.85fr]">
               <ProductSearch
                 search={search}
                 selectedCategory={selectedCategory}
