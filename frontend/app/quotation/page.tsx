@@ -253,32 +253,17 @@ export default function QuotationPage() {
   // PAGE
   // ============================================================
 
-  return (
-    <main className="min-h-screen bg-[#f7f8f6] text-[#171a17]">
-      <QuotationHeader />
+ return (
+  <main className="min-h-screen bg-[#f7f8f6] text-[#171a17]">
+    <QuotationHeader />
 
-      <section className="mx-auto w-full max-w-6xl px-6 pb-20 pt-8 lg:px-8">
-        {/* Intro */}
+    <section className="mx-auto w-full max-w-6xl px-6 pb-20 pt-8 lg:px-8">
+      {submittedQuotation ? (
+        <>
+          {/* ==================================================== */}
+          {/* SUCCESS                                               */}
+          {/* ==================================================== */}
 
-        <div className="mb-10">
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#006BB4]">
-            Request a quotation
-          </p>
-
-          <h1 className="mt-4 text-4xl font-semibold tracking-[-0.04em] sm:text-5xl">
-            Tell us what you need.
-          </h1>
-
-          <p className="mt-4 max-w-xl text-base leading-7 text-[#69716b]">
-            Add the products you&apos;d like our sales team to quote.
-          </p>
-        </div>
-
-        {/* ==================================================== */}
-        {/* SUCCESS                                               */}
-        {/* ==================================================== */}
-
-        {submittedQuotation ? (
           <QuotationSuccess
             quotation={submittedQuotation.quotation}
             facilityName={facilityName}
@@ -288,97 +273,118 @@ export default function QuotationPage() {
             onDownloadExcel={() =>
               downloadExcel(submittedQuotation.quotation.id)
             }
-            onDownloadWord={() => downloadWord(submittedQuotation.quotation.id)}
+            onDownloadWord={() =>
+              downloadWord(submittedQuotation.quotation.id)
+            }
             onCreateAnother={handleCreateAnother}
           />
-        ) : (
-          <>
-            {/* ================================================= */}
-            {/* CUSTOMER DETAILS                                  */}
-            {/* ================================================= */}
+        </>
+      ) : (
+        <>
+          {/* ==================================================== */}
+          {/* INTRO                                                 */}
+          {/* ==================================================== */}
 
-            <CustomerDetails
-              facilityName={facilityName}
-              contactPerson={contactPerson}
-              email={email}
-              phone={phone}
-              errors={errors}
-              onFacilityNameChange={(value) => {
-                setFacilityName(value);
+          <div className="mb-10">
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#006BB4]">
+              Request a quotation
+            </p>
 
-                if (hasSubmitted) {
-                  setErrors((current) => ({
-                    ...current,
-                    facilityName: undefined,
-                  }));
-                }
-              }}
-              onContactPersonChange={(value) => {
-                setContactPerson(value);
+            <h1 className="mt-4 text-4xl font-semibold tracking-[-0.04em] sm:text-5xl">
+              Tell us what you need.
+            </h1>
 
-                if (hasSubmitted) {
-                  setErrors((current) => ({
-                    ...current,
-                    contactPerson: undefined,
-                  }));
-                }
-              }}
-              onEmailChange={(value) => {
-                setEmail(value);
+            <p className="mt-4 max-w-xl text-base leading-7 text-[#69716b]">
+              Add the products you&apos;d like our sales team to quote.
+            </p>
+          </div>
 
-                if (hasSubmitted) {
-                  setErrors((current) => ({
-                    ...current,
-                    email: undefined,
-                  }));
-                }
-              }}
-              onPhoneChange={(value) => {
-                setPhone(value);
+          {/* ==================================================== */}
+          {/* CUSTOMER DETAILS                                      */}
+          {/* ==================================================== */}
 
-                if (hasSubmitted) {
-                  setErrors((current) => ({
-                    ...current,
-                    phone: undefined,
-                  }));
-                }
-              }}
+          <CustomerDetails
+            facilityName={facilityName}
+            contactPerson={contactPerson}
+            email={email}
+            phone={phone}
+            errors={errors}
+            onFacilityNameChange={(value) => {
+              setFacilityName(value);
+
+              if (hasSubmitted) {
+                setErrors((current) => ({
+                  ...current,
+                  facilityName: undefined,
+                }));
+              }
+            }}
+            onContactPersonChange={(value) => {
+              setContactPerson(value);
+
+              if (hasSubmitted) {
+                setErrors((current) => ({
+                  ...current,
+                  contactPerson: undefined,
+                }));
+              }
+            }}
+            onEmailChange={(value) => {
+              setEmail(value);
+
+              if (hasSubmitted) {
+                setErrors((current) => ({
+                  ...current,
+                  email: undefined,
+                }));
+              }
+            }}
+            onPhoneChange={(value) => {
+              setPhone(value);
+
+              if (hasSubmitted) {
+                setErrors((current) => ({
+                  ...current,
+                  phone: undefined,
+                }));
+              }
+            }}
+          />
+
+          {/* ==================================================== */}
+          {/* PRODUCTS                                               */}
+          {/* ==================================================== */}
+
+          <div className="mt-6 grid gap-6 lg:grid-cols-[1.15fr_0.85fr]">
+            <ProductSearch
+              search={search}
+              selectedCategory={selectedCategory}
+              categories={categories}
+              products={products}
+              productsLoading={productsLoading}
+              productsFetching={productsFetching}
+              productsError={productsError}
+              onSearchChange={setSearch}
+              onCategoryChange={setSelectedCategory}
+              onAddProduct={addProduct}
+              isSelected={isSelected}
             />
 
-            {/* ================================================= */}
-            {/* PRODUCTS                                           */}
-            {/* ================================================= */}
-
-            <div className="mt-6 grid gap-6 lg:grid-cols-[1.15fr_0.85fr]">
-              <ProductSearch
-                search={search}
-                selectedCategory={selectedCategory}
-                categories={categories}
-                products={products}
-                productsLoading={productsLoading}
-                productsFetching={productsFetching}
-                productsError={productsError}
-                onSearchChange={setSearch}
-                onCategoryChange={setSelectedCategory}
-                onAddProduct={addProduct}
-                isSelected={isSelected}
-              />
-
-              <SelectedItems
-                selectedItems={selectedItems}
-                isSubmitting={isSubmitting}
-                submitError={submitError}
-                submissionError={submissionError}
-                onIncrease={increaseQuantity}
-                onDecrease={decreaseQuantity}
-                onQuantityChange={changeQuantity}
-                onRemove={removeProduct}
-                onSubmit={handleSubmitQuotation}
-              />
-            </div>
-          </>
-        )}
-      </section>
-    </main>
-  );
+            <SelectedItems
+              selectedItems={selectedItems}
+              isSubmitting={isSubmitting}
+              submitError={submitError}
+              submissionError={submissionError}
+              onIncrease={increaseQuantity}
+              onDecrease={decreaseQuantity}
+              onQuantityChange={changeQuantity}
+              onRemove={removeProduct}
+              onSubmit={handleSubmitQuotation}
+            />
+          </div>
+        </>
+      )}
+    </section>
+  </main>
+);
 }
