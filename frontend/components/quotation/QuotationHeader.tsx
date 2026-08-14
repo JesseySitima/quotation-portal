@@ -10,29 +10,37 @@ export default function QuotationHeader({
   rightContent,
 }: QuotationHeaderProps) {
   return (
-    <header className="mx-auto flex w-full max-w-6xl items-center justify-between px-6 py-6 lg:px-8">
-     <div className="flex items-center gap-1.5">
-  <div className="flex h-16 w-auto items-center">
-    <Image
-      src="/amm-logo.png"
-      alt="Action Medeor logo"
-      width={40}
-      height={40}
-      className="object-contain"
-      priority
-    />
-  </div>
+    <header className="mx-auto flex w-full max-w-6xl items-center justify-between gap-4 px-4 py-4 sm:px-6 sm:py-6 lg:px-8">
+      {/* Logo + Brand */}
+      <div className="flex min-w-0 items-center gap-2">
+        <div className="flex h-12 w-10 shrink-0 items-center sm:h-16 sm:w-auto">
+          <Image
+            src="/amm-logo.png"
+            alt="Action Medeor logo"
+            width={40}
+            height={40}
+            className="h-auto w-10 object-contain sm:w-10"
+            priority
+          />
+        </div>
 
-  <div>
-    <p className="text-lg text-[#006BB4] font-semibold tracking-tight">
-      action medeor Malawi Quotation Portal
-    </p>
+        <div className="min-w-0">
+          <p className="text-sm font-semibold leading-5 tracking-tight text-[#006BB4] sm:text-lg sm:leading-normal">
+            action medeor Malawi Quotation Portal
+          </p>
 
-    <p className="text-[11px] text-[#858c86]">{subtitle}</p>
-  </div>
-</div>
+          <p className="mt-0.5 text-[10px] text-[#858c86] sm:text-[11px]">
+            {subtitle}
+          </p>
+        </div>
+      </div>
 
-      {rightContent}
+      {/* Right Content */}
+      {rightContent && (
+        <div className="shrink-0">
+          {rightContent}
+        </div>
+      )}
     </header>
   );
 }

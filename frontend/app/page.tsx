@@ -27,11 +27,11 @@ export default function Home() {
               Welcome
             </p>
 
-            <h1 className="text-5xl font-semibold tracking-[-0.045em] sm:text-6xl lg:text-7xl">
+            <h1 className="text-3xl font-semibold tracking-[-0.04em] sm:text-5xl lg:text-6xl">
               Need a quotation?
             </h1>
 
-            <h2 className="mt-3 text-3xl font-medium tracking-[-0.035em] text-[#006BB4] sm:text-4xl">
+            <h2 className="mt-2 text-xl font-medium tracking-[-0.03em] text-[#006BB4] sm:text-3xl lg:text-4xl">
               Let&apos;s make it simple.
             </h2>
 
@@ -47,7 +47,6 @@ export default function Home() {
                 className="group flex h-14 items-center gap-3 rounded-2xl bg-[#006BB4] px-8 text-sm font-medium text-white shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:bg-[#005A96] hover:shadow-lg"
               >
                 Start a quotation request
-              
               </Link>
 
               <p className="mt-3 text-xs text-[#8a918b]">
