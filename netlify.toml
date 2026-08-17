@@ -1,4 +1,3 @@
 [build]
-  base = "frontend"
   command = "npm run build"
-  # deliberately no publish = line
+  # publish left unset on purpose
