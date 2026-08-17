@@ -1,5 +1,6 @@
 import Link from "next/link";
 import QuotationHeader from "@/components/quotation/QuotationHeader";
+import HelpPopover from "@/components/quotation/HelpPopover";
 
 export default function Home() {
   return (
@@ -8,12 +9,15 @@ export default function Home() {
       <QuotationHeader
         subtitle="Simple. Fast. Convenient."
         rightContent={
-          <div className="hidden items-center gap-6 text-xs text-[#69716b] sm:flex">
-            <span>Need help?</span>
+          <div className="flex items-center gap-4 text-xs text-[#69716b] sm:gap-6">
+            <HelpPopover
+              whatsappNumber="265881063608"
+              phoneNumber="265881063608"
+            />
 
             <span className="h-4 w-px bg-[#dfe4df]" />
 
-            <span>No account required</span>
+            <span className="hidden sm:inline">No account required</span>
           </div>
         }
       />
@@ -56,8 +60,9 @@ export default function Home() {
           </div>
 
           {/* Steps */}
+          {/* Steps */}
           <div className="mx-auto mt-20 max-w-3xl border-t border-[#dfe4df] pt-8">
-            <div className="grid grid-cols-1 gap-8 sm:grid-cols-3 sm:gap-6">
+            <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 sm:gap-10">
               {/* Step 1 */}
               <div>
                 <span className="text-[11px] font-bold tracking-[0.15em] text-[#006BB4]">
@@ -69,7 +74,7 @@ export default function Home() {
                 </h3>
 
                 <p className="mt-1.5 text-xs leading-5 text-[#858c86]">
-                  Browse categories or search for exactly what you need.
+                  Search for what you need, then add the quantities.
                 </p>
               </div>
 
@@ -80,26 +85,11 @@ export default function Home() {
                 </span>
 
                 <h3 className="mt-2 text-sm font-semibold">
-                  Tell us what you need
+                  Submit your request
                 </h3>
 
                 <p className="mt-1.5 text-xs leading-5 text-[#858c86]">
-                  Add quantities and provide your contact details.
-                </p>
-              </div>
-
-              {/* Step 3 */}
-              <div>
-                <span className="text-[11px] font-bold tracking-[0.15em] text-[#006BB4]">
-                  03
-                </span>
-
-                <h3 className="mt-2 text-sm font-semibold">
-                  Send your request
-                </h3>
-
-                <p className="mt-1.5 text-xs leading-5 text-[#858c86]">
-                  Our sales team will review it and get back to you.
+                  Provide your contact details and send your quotation request.
                 </p>
               </div>
             </div>
