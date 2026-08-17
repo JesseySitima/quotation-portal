@@ -59,7 +59,7 @@ export default function ProductSearch({
           type="search"
           value={search}
           onChange={(event) => onSearchChange(event.target.value)}
-          placeholder="Search by product name or SKU..."
+          placeholder="Search by product name..."
           className="box-border h-12 w-full min-w-0 rounded-xl border border-[#dfe4df] bg-[#fafbfa] pl-11 pr-4 text-sm outline-none transition placeholder:text-[#a1a7a2] focus:border-[#006BB4] focus:bg-white focus:ring-2 focus:ring-[#006BB4]/10"
         />
 

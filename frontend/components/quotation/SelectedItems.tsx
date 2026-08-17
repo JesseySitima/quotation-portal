@@ -77,7 +77,7 @@ export default function SelectedItems({
             </p>
 
             <p className="mx-auto mt-2 max-w-xs text-xs leading-5 text-[#858c86]">
-              Add products from the left and they&apos;ll appear here.
+              Add products first and they&apos;ll appear here.
             </p>
           </div>
         </div>
