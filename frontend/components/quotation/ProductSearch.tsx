@@ -139,7 +139,7 @@ export default function ProductSearch({
                 </p>
 
                 <p className="mx-auto mt-1.5 max-w-xs text-xs leading-5 text-[#858c86]">
-                  Enter a product name or SKU to see available items.
+                  Enter a product name to see available items.
                 </p>
               </div>
             </div>
@@ -157,7 +157,7 @@ export default function ProductSearch({
                 </p>
 
                 <p className="mt-1 text-xs leading-5 text-[#858c86]">
-                  Try a different product name or SKU.
+                  Try a different product name.
                 </p>
               </div>
             </div>
