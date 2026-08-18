@@ -1,8 +1,12 @@
+"use client";
+
 import Link from "next/link";
 import QuotationHeader from "@/components/quotation/QuotationHeader";
 import HelpPopover from "@/components/quotation/HelpPopover";
+import { useCategories } from "@/hooks/useCategories";
 
 export default function Home() {
+  useCategories();
   return (
     <main className="min-h-screen bg-[#f7f8f6] text-[#171a17]">
       {/* Header */}
