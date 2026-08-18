@@ -44,9 +44,7 @@ export default function ProductSearch({
           02
         </p>
 
-        <h2 className="mt-2 text-lg font-semibold">
-          What do you need?
-        </h2>
+        <h2 className="mt-2 text-lg font-semibold">What do you need?</h2>
 
         <p className="mt-1.5 text-sm text-[#858c86]">
           Search for products and add them to your request.
@@ -105,9 +103,7 @@ export default function ProductSearch({
         {/* Loading */}
         {productsLoading && (
           <div className="flex min-h-[180px] w-full items-center justify-center rounded-2xl bg-[#fafbfa]">
-            <p className="text-sm text-[#69716b]">
-              Searching products...
-            </p>
+            <p className="text-sm text-[#69716b]">Searching products...</p>
           </div>
         )}
 
@@ -118,29 +114,55 @@ export default function ProductSearch({
               We couldn&apos;t load the products.
             </p>
 
-            <p className="mt-1 text-xs text-red-600">
-              Please try again.
-            </p>
+            <p className="mt-1 text-xs text-red-600">Please try again.</p>
           </div>
         )}
 
-        {/* Initial state */}
+        {/* Initial products */}
         {!productsLoading &&
           !productsError &&
-          search.trim() === "" && (
-            <div className="flex min-h-[180px] w-full items-center justify-center rounded-2xl border border-dashed border-[#dfe4df] bg-[#fafbfa] p-6 text-center">
-              <div className="min-w-0">
-                <div className="mx-auto flex h-10 w-10 items-center justify-center rounded-full bg-[#EAF4FB] text-[#006BB4]">
-                  ⌕
-                </div>
+          search.trim() === "" &&
+          products.length > 0 && (
+            <div>
+              <p className="mb-3 text-xs font-medium text-[#858c86]">
+                Available products
+              </p>
 
-                <p className="mt-3 text-sm font-medium text-[#69716b]">
-                  Search for an item
-                </p>
+              <div className="max-h-[420px] w-full min-w-0 space-y-2 overflow-y-auto">
+                {products.map((product) => {
+                  const selected = isSelected(product.id);
 
-                <p className="mx-auto mt-1.5 max-w-xs text-xs leading-5 text-[#858c86]">
-                  Enter a product name to see available items.
-                </p>
+                  return (
+                    <div
+                      key={product.id}
+                      className="flex w-full min-w-0 items-center justify-between gap-3 rounded-2xl border border-[#e5e9e5] p-3.5 transition hover:border-[#b9d5e8]"
+                    >
+                      {/* Product */}
+                      <div className="min-w-0 flex-1">
+                        <p className="truncate text-sm font-medium text-[#171a17]">
+                          {product.name}
+                        </p>
+
+                        <p className="mt-1 text-xs text-[#858c86]">
+                          Unit: {product.unit}
+                        </p>
+                      </div>
+
+                      {/* Add */}
+                      <button
+                        type="button"
+                        onClick={() => onAddProduct(product)}
+                        className={`shrink-0 rounded-xl px-3.5 py-2 text-xs font-medium transition ${
+                          selected
+                            ? "bg-[#EAF4FB] text-[#006BB4]"
+                            : "bg-[#006BB4] text-white hover:bg-[#005A96]"
+                        }`}
+                      >
+                        {selected ? "Added" : "Add"}
+                      </button>
+                    </div>
+                  );
+                })}
               </div>
             </div>
           )}
