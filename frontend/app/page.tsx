@@ -4,9 +4,16 @@ import Link from "next/link";
 import QuotationHeader from "@/components/quotation/QuotationHeader";
 import HelpPopover from "@/components/quotation/HelpPopover";
 import { useCategories } from "@/hooks/useCategories";
+import { useProducts } from "@/hooks/useProducts";
 
 export default function Home() {
   useCategories();
+  useProducts({
+    search: undefined,
+    category_id: undefined,
+    page: 1,
+    page_size: 20,
+  });
   return (
     <main className="min-h-screen bg-[#f7f8f6] text-[#171a17]">
       {/* Header */}
