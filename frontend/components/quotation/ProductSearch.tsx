@@ -1,3 +1,4 @@
+import { useRef, useCallback } from "react";
 import type { Product } from "@/types/product";
 
 interface Category {
@@ -16,6 +17,10 @@ interface ProductSearchProps {
   productsFetching: boolean;
   productsError: boolean;
 
+  hasNextPage: boolean;
+  isFetchingNextPage: boolean;
+  fetchNextPage: () => void;
+
   onSearchChange: (value: string) => void;
   onCategoryChange: (value: string) => void;
 
@@ -31,11 +36,29 @@ export default function ProductSearch({
   productsLoading,
   productsFetching,
   productsError,
+  hasNextPage,
+  isFetchingNextPage,
+  fetchNextPage,
   onSearchChange,
   onCategoryChange,
   onAddProduct,
   isSelected,
 }: ProductSearchProps) {
+  const productsContainerRef = useRef<HTMLDivElement>(null);
+  const handleProductsScroll = useCallback(() => {
+    const container = productsContainerRef.current;
+
+    if (!container || !hasNextPage || isFetchingNextPage) {
+      return;
+    }
+
+    const distanceFromBottom =
+      container.scrollHeight - container.scrollTop - container.clientHeight;
+
+    if (distanceFromBottom < 100) {
+      fetchNextPage();
+    }
+  }, [hasNextPage, isFetchingNextPage, fetchNextPage]);
   return (
     <section className="min-w-0 w-full rounded-3xl border border-[#dfe4df] bg-white p-6 sm:p-8">
       {/* Header */}
@@ -130,7 +153,11 @@ export default function ProductSearch({
                   : "Available products"}
             </p>
 
-            <div className="max-h-[420px] w-full min-w-0 space-y-2 overflow-y-auto">
+            <div
+              ref={productsContainerRef}
+              onScroll={handleProductsScroll}
+              className="max-h-[420px] w-full min-w-0 space-y-2 overflow-y-auto"
+            >
               {products.map((product) => {
                 const selected = isSelected(product.id);
 
@@ -166,6 +193,11 @@ export default function ProductSearch({
                 );
               })}
             </div>
+            {isFetchingNextPage && (
+              <p className="mt-3 text-center text-[11px] text-[#858c86]">
+                Loading more products...
+              </p>
+            )}
           </div>
         )}
 

@@ -71,14 +71,16 @@ export default function QuotationPage() {
     isLoading: productsLoading,
     isFetching: productsFetching,
     isError: productsError,
+    hasNextPage,
+    isFetchingNextPage,
+    fetchNextPage,
   } = useProducts({
     search: search || undefined,
     category_id: selectedCategory || undefined,
-    page: 1,
     page_size: 20,
   });
 
-  const products = productsData?.items ?? [];
+  const products = productsData?.pages.flatMap((page) => page.items) ?? [];
 
   // ============================================================
   // CREATE QUOTATION
@@ -418,6 +420,9 @@ export default function QuotationPage() {
                 productsLoading={productsLoading}
                 productsFetching={productsFetching}
                 productsError={productsError}
+                hasNextPage={hasNextPage}
+                isFetchingNextPage={isFetchingNextPage}
+                fetchNextPage={fetchNextPage}
                 onSearchChange={setSearch}
                 onCategoryChange={setSelectedCategory}
                 onAddProduct={addProduct}
