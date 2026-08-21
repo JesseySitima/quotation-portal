@@ -99,6 +99,7 @@ export default function ProductSearch({
       )}
 
       {/* Products */}
+      {/* Products */}
       <div className="mt-5 min-w-0">
         {/* Loading */}
         {productsLoading && (
@@ -118,78 +119,17 @@ export default function ProductSearch({
           </div>
         )}
 
-        {/* Initial products */}
-        {!productsLoading &&
-          !productsError &&
-          search.trim() === "" &&
-          products.length > 0 && (
-            <div>
-              <p className="mb-3 text-xs font-medium text-[#858c86]">
-                Available products
-              </p>
+        {/* Products */}
+        {!productsLoading && !productsError && products.length > 0 && (
+          <div>
+            <p className="mb-3 text-xs font-medium text-[#858c86]">
+              {search.trim() !== ""
+                ? "Search results"
+                : selectedCategory !== ""
+                  ? "Available products"
+                  : "Available products"}
+            </p>
 
-              <div className="max-h-[420px] w-full min-w-0 space-y-2 overflow-y-auto">
-                {products.map((product) => {
-                  const selected = isSelected(product.id);
-
-                  return (
-                    <div
-                      key={product.id}
-                      className="flex w-full min-w-0 items-center justify-between gap-3 rounded-2xl border border-[#e5e9e5] p-3.5 transition hover:border-[#b9d5e8]"
-                    >
-                      {/* Product */}
-                      <div className="min-w-0 flex-1">
-                        <p className="truncate text-sm font-medium text-[#171a17]">
-                          {product.name}
-                        </p>
-
-                        <p className="mt-1 text-xs text-[#858c86]">
-                          Unit: {product.unit}
-                        </p>
-                      </div>
-
-                      {/* Add */}
-                      <button
-                        type="button"
-                        onClick={() => onAddProduct(product)}
-                        className={`shrink-0 rounded-xl px-3.5 py-2 text-xs font-medium transition ${
-                          selected
-                            ? "bg-[#EAF4FB] text-[#006BB4]"
-                            : "bg-[#006BB4] text-white hover:bg-[#005A96]"
-                        }`}
-                      >
-                        {selected ? "Added" : "Add"}
-                      </button>
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-          )}
-
-        {/* No results */}
-        {!productsLoading &&
-          !productsError &&
-          search.trim() !== "" &&
-          products.length === 0 && (
-            <div className="flex min-h-[150px] w-full items-center justify-center rounded-2xl bg-[#fafbfa] p-6 text-center">
-              <div className="min-w-0">
-                <p className="text-sm font-medium text-[#69716b]">
-                  No products found
-                </p>
-
-                <p className="mt-1 text-xs leading-5 text-[#858c86]">
-                  Try a different product name.
-                </p>
-              </div>
-            </div>
-          )}
-
-        {/* Results */}
-        {!productsLoading &&
-          !productsError &&
-          search.trim() !== "" &&
-          products.length > 0 && (
             <div className="max-h-[420px] w-full min-w-0 space-y-2 overflow-y-auto">
               {products.map((product) => {
                 const selected = isSelected(product.id);
@@ -225,6 +165,44 @@ export default function ProductSearch({
                   </div>
                 );
               })}
+            </div>
+          </div>
+        )}
+
+        {/* No products in selected category */}
+        {!productsLoading &&
+          !productsError &&
+          selectedCategory !== "" &&
+          search.trim() === "" &&
+          products.length === 0 && (
+            <div className="flex min-h-[150px] w-full items-center justify-center rounded-2xl bg-[#fafbfa] p-6 text-center">
+              <div className="min-w-0">
+                <p className="text-sm font-medium text-[#69716b]">
+                  No products in this category
+                </p>
+
+                <p className="mt-1 text-xs leading-5 text-[#858c86]">
+                  Try selecting another category.
+                </p>
+              </div>
+            </div>
+          )}
+
+        {/* No search results */}
+        {!productsLoading &&
+          !productsError &&
+          search.trim() !== "" &&
+          products.length === 0 && (
+            <div className="flex min-h-[150px] w-full items-center justify-center rounded-2xl bg-[#fafbfa] p-6 text-center">
+              <div className="min-w-0">
+                <p className="text-sm font-medium text-[#69716b]">
+                  No products found
+                </p>
+
+                <p className="mt-1 text-xs leading-5 text-[#858c86]">
+                  Try a different product name.
+                </p>
+              </div>
             </div>
           )}
       </div>
