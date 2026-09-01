@@ -18,6 +18,7 @@ def send_quotation_email(quotation, items):
     for item in items:
         items_html += f"""
         <tr>
+            <td>{item["sku"]}</td>
             <td>{item["product_name"]}</td>
             <td>{item["quantity"]}</td>
             <td>{item["unit"]}</td>
@@ -61,6 +62,7 @@ def send_quotation_email(quotation, items):
             <table border="1" cellpadding="8" cellspacing="0">
                 <thead>
                     <tr>
+                        <th>No.</th>
                         <th>Product</th>
                         <th>Quantity</th>
                         <th>Unit</th>

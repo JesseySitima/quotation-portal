@@ -10,7 +10,7 @@ def create_quotation_excel(quotation, items):
     worksheet.title = "Quotation Items"
 
     # Headers
-    headers = ["Product", "Quantity", "Unit"]
+    headers = ["No.", "Product", "Quantity", "Unit"]
 
     for column, header in enumerate(headers, start=1):
         cell = worksheet.cell(
@@ -27,27 +27,34 @@ def create_quotation_excel(quotation, items):
         worksheet.cell(
             row=row,
             column=1,
-            value=item["product_name"],
+            value=item["sku"],
         )
 
         worksheet.cell(
             row=row,
             column=2,
-            value=item["quantity"],
+            value=item["product_name"],
         )
 
         worksheet.cell(
             row=row,
             column=3,
+            value=item["quantity"],
+        )
+
+        worksheet.cell(
+            row=row,
+            column=4,
             value=item["unit"],
         )
 
         row += 1
 
     # Column widths
-    worksheet.column_dimensions["A"].width = 40
-    worksheet.column_dimensions["B"].width = 15
-    worksheet.column_dimensions["C"].width = 20
+    worksheet.column_dimensions["A"].width = 12
+    worksheet.column_dimensions["B"].width = 40
+    worksheet.column_dimensions["C"].width = 15
+    worksheet.column_dimensions["D"].width = 20
 
     # Save to memory
     output = BytesIO()

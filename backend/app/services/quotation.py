@@ -1,4 +1,3 @@
-
 from datetime import datetime
 
 from fastapi import HTTPException
@@ -38,7 +37,7 @@ def create_quotation_service(request: QuotationRequestCreate):
         product_response = (
             supabase
             .table("products")
-            .select("id, name, unit")
+            .select("id, name, sku, unit")
             .eq("id", str(item.product_id))
             .single()
             .execute()
@@ -56,6 +55,7 @@ def create_quotation_service(request: QuotationRequestCreate):
             "quotation_request_id": quotation_id,
             "product_id": product["id"],
             "product_name": product["name"],
+            "sku": product["sku"],
             "quantity": item.quantity,
             "unit": product["unit"],
         })
@@ -75,14 +75,15 @@ def create_quotation_service(request: QuotationRequestCreate):
 
     return quotation, items_response.data
 
+
 def get_quotation_with_items_service(quotation_id: str):
     quotation_response = (
-    supabase
-    .table("quotation_requests")
-    .select("*")
-    .eq("id", quotation_id)
-    .single()
-    .execute()
+        supabase
+        .table("quotation_requests")
+        .select("*")
+        .eq("id", quotation_id)
+        .single()
+        .execute()
     )
 
     quotation = quotation_response.data
@@ -97,7 +98,7 @@ def get_quotation_with_items_service(quotation_id: str):
         supabase
         .table("quotation_request_items")
         .select(
-            "id, quotation_request_id, product_id, product_name, quantity, unit"
+            "id, quotation_request_id, product_id, product_name, sku, quantity, unit"
         )
         .eq("quotation_request_id", quotation_id)
         .execute()
