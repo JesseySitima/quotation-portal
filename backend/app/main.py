@@ -5,6 +5,7 @@ from app.config import settings
 from app.routers.categories import router as categories_router
 from app.routers.products import router as products_router
 from app.routers.quotations import router as quotations_router
+from app.routers.catalog import router as catalog_router
 
 app = FastAPI(
     title=settings.app_name,
@@ -31,6 +32,7 @@ app.add_middleware(
 app.include_router(categories_router)
 app.include_router(products_router)
 app.include_router(quotations_router)
+app.include_router(catalog_router)
 
 
 @app.get("/api/v1/health")
