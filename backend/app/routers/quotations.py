@@ -7,8 +7,10 @@ from app.services.excel import create_quotation_excel
 from app.services.word import create_quotation_word
 
 from app.services.quotation import (
-create_quotation_service,
-get_quotation_with_items_service,
+    create_quotation_service,
+    get_quotation_with_items_service,
+    get_quotations_service,
+    update_quotation_status_service,
 )
 
 
@@ -43,7 +45,33 @@ def create_quotation(request: QuotationRequestCreate):
         "email_sent": email_sent,
     }
 
+@router.get("")
+def get_quotations():
+    return get_quotations_service()
 
+
+@router.get("/{quotation_id}")
+def get_quotation(quotation_id: str):
+    quotation, items = get_quotation_with_items_service(
+        quotation_id
+    )
+
+    return {
+        "quotation": quotation,
+        "items": items,
+    }
+
+@router.patch("/{quotation_id}/status")
+def update_quotation_status(quotation_id: str):
+    quotation = update_quotation_status_service(
+        quotation_id,
+        "DONE",
+    )
+
+    return {
+        "message": "Quotation marked as done",
+        "quotation": quotation,
+    }
 
 @router.get("/{quotation_id}/excel")
 def download_quotation_excel(quotation_id: str):
@@ -95,3 +123,5 @@ def download_quotation_word(quotation_id: str):
             )
         },
     )
+    
+    

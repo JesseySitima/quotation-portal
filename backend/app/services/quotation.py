@@ -113,3 +113,36 @@ def get_quotation_with_items_service(quotation_id: str):
         )
 
     return quotation, items
+
+def get_quotations_service():
+    response = (
+        supabase
+        .table("quotation_requests")
+        .select("*")
+        .order("created_at", desc=True)
+        .execute()
+    )
+
+    return response.data
+
+def update_quotation_status_service(
+    quotation_id: str,
+    status: str,
+):
+    response = (
+        supabase
+        .table("quotation_requests")
+        .update({
+            "status": status,
+        })
+        .eq("id", quotation_id)
+        .execute()
+    )
+
+    if not response.data:
+        raise HTTPException(
+            status_code=404,
+            detail="Quotation request not found",
+        )
+
+    return response.data[0]
