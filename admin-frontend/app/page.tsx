@@ -41,139 +41,220 @@ export default function Home() {
   ).length;
 
   return (
-    <main className="min-h-screen bg-gray-100">
-      <header className="bg-white border-b">
-        <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+    <main className="min-h-screen bg-[#f7f8f6] text-[#171a17]">
+      {/* Header */}
+      <header className="border-b border-[#dfe4df] bg-white">
+        <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4 lg:px-8">
           <div>
-            <h1 className="text-xl font-bold text-gray-900">
+            <h1 className="text-xl font-semibold tracking-[-0.02em] text-[#171a17]">
               Quotation Portal
             </h1>
-            <p className="text-sm text-gray-500">Administration</p>
+
+            <p className="mt-0.5 text-sm text-[#69716b]">
+              Administration
+            </p>
           </div>
 
-          <button className="text-sm text-gray-600 hover:text-gray-900">
+          <button className="text-sm text-[#69716b] transition-colors hover:text-[#006BB4]">
             Logout
           </button>
         </div>
       </header>
 
-      <div className="max-w-7xl mx-auto px-6 py-8">
-        <h2 className="text-2xl font-bold text-gray-900">Dashboard</h2>
+      {/* Main */}
+      <div className="mx-auto max-w-7xl px-6 py-8 lg:px-8">
+        <div>
+          <h2 className="text-2xl font-semibold tracking-[-0.03em] text-[#171a17]">
+            Dashboard
+          </h2>
 
-        <p className="mt-1 text-gray-500">
-          Manage quotation requests and product catalog.
-        </p>
+          <p className="mt-1 text-sm text-[#69716b]">
+            Manage quotation requests and product catalog.
+          </p>
+        </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
-          <div className="bg-white rounded-xl border p-6">
-            <p className="text-sm text-gray-500">Pending Requests</p>
+        {/* Summary Cards */}
+        <div className="mt-8 grid grid-cols-1 gap-5 md:grid-cols-3">
+          {/* Pending */}
+          <div className="rounded-2xl border border-[#dfe4df] bg-white p-6 shadow-sm">
+            <div className="flex items-start justify-between">
+              <div>
+                <p className="text-sm text-[#69716b]">
+                  Pending Requests
+                </p>
 
-            <p className="text-3xl font-bold text-gray-900 mt-2">
-              {loading ? "..." : pendingCount}
-            </p>
+                <p className="mt-2 text-3xl font-semibold tracking-[-0.03em] text-[#171a17]">
+                  {loading ? "..." : pendingCount}
+                </p>
+              </div>
+
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#fff7df] text-[#9a7410]">
+                <span className="text-sm font-bold">P</span>
+              </div>
+            </div>
           </div>
 
-          <div className="bg-white rounded-xl border p-6">
-            <p className="text-sm text-gray-500">Completed Requests</p>
+          {/* Completed */}
+          <div className="rounded-2xl border border-[#dfe4df] bg-white p-6 shadow-sm">
+            <div className="flex items-start justify-between">
+              <div>
+                <p className="text-sm text-[#69716b]">
+                  Completed Requests
+                </p>
 
-            <p className="text-3xl font-bold text-gray-900 mt-2">
-              {loading ? "..." : completedCount}
-            </p>
+                <p className="mt-2 text-3xl font-semibold tracking-[-0.03em] text-[#171a17]">
+                  {loading ? "..." : completedCount}
+                </p>
+              </div>
+
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#eaf6ef] text-[#21834b]">
+                <span className="text-sm font-bold">✓</span>
+              </div>
+            </div>
           </div>
 
-          <div className="bg-white rounded-xl border p-6">
-            <p className="text-sm text-gray-500">Catalog</p>
+          {/* Catalog */}
+          <div className="rounded-2xl border border-[#dfe4df] bg-white p-6 shadow-sm">
+            <div className="flex items-start justify-between">
+              <div>
+                <p className="text-sm text-[#69716b]">
+                  Product Catalog
+                </p>
 
-            <p className="text-3xl font-bold text-gray-900 mt-2">—</p>
+                <p className="mt-2 text-3xl font-semibold tracking-[-0.03em] text-[#171a17]">
+                  Active
+                </p>
+              </div>
+
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#e8f4fa] text-[#006BB4]">
+                <span className="text-sm font-bold">C</span>
+              </div>
+            </div>
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
-          <div className="bg-white rounded-xl border p-6">
-            <h3 className="text-lg font-semibold text-gray-900">
+        {/* Management Cards */}
+        <div className="mt-8 grid grid-cols-1 gap-5 md:grid-cols-2">
+          {/* Requests */}
+          <div className="rounded-2xl border border-[#dfe4df] bg-white p-6 shadow-sm">
+            <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-[#e8f4fa] text-[#006BB4]">
+              <span className="text-sm font-bold">01</span>
+            </div>
+
+            <h3 className="mt-5 text-lg font-semibold tracking-[-0.02em] text-[#171a17]">
               Quotation Requests
             </h3>
 
-            <p className="text-sm text-gray-500 mt-2">
-              View submitted requests and mark them as completed.
+            <p className="mt-2 max-w-md text-sm leading-6 text-[#69716b]">
+              View submitted requests, review quotation items, and
+              mark completed requests.
             </p>
+
             <a
               href="/requests"
-              className="inline-block mt-5 rounded-lg bg-black px-5 py-2.5 text-sm font-medium text-white hover:bg-gray-800"
+              className="mt-5 inline-flex h-11 items-center rounded-xl bg-[#006BB4] px-5 text-sm font-medium text-white shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:bg-[#005A96] hover:shadow-md"
             >
               View Requests
             </a>
           </div>
 
-          <div className="bg-white rounded-xl border p-6">
-            <h3 className="text-lg font-semibold text-gray-900">
+          {/* Catalog */}
+          <div className="rounded-2xl border border-[#dfe4df] bg-white p-6 shadow-sm">
+            <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-[#e8f4fa] text-[#006BB4]">
+              <span className="text-sm font-bold">02</span>
+            </div>
+
+            <h3 className="mt-5 text-lg font-semibold tracking-[-0.02em] text-[#171a17]">
               Product Catalog
             </h3>
 
-            <p className="text-sm text-gray-500 mt-2">
-              Upload the latest quotation item catalog.
+            <p className="mt-2 max-w-md text-sm leading-6 text-[#69716b]">
+              Upload the latest quotation item catalog received
+              from BC and keep the product list up to date.
             </p>
 
-            <button className="mt-5 rounded-lg bg-black px-5 py-2.5 text-sm font-medium text-white hover:bg-gray-800">
+            <a
+              href="/catalog"
+              className="mt-5 inline-flex h-11 items-center rounded-xl bg-[#006BB4] px-5 text-sm font-medium text-white shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:bg-[#005A96] hover:shadow-md"
+            >
               Manage Catalog
-            </button>
+            </a>
           </div>
         </div>
 
-        <div className="mt-8 bg-white rounded-xl border overflow-hidden">
-          <div className="px-6 py-5 border-b">
-            <h3 className="text-lg font-semibold text-gray-900">
-              Recent Requests
-            </h3>
+        {/* Recent Requests */}
+        <div className="mt-8 overflow-hidden rounded-2xl border border-[#dfe4df] bg-white shadow-sm">
+          <div className="border-b border-[#dfe4df] px-6 py-5">
+            <div className="flex items-center justify-between">
+              <div>
+                <h3 className="text-lg font-semibold tracking-[-0.02em] text-[#171a17]">
+                  Recent Requests
+                </h3>
+
+                <p className="mt-1 text-sm text-[#69716b]">
+                  Latest quotation requests submitted through the portal.
+                </p>
+              </div>
+
+              <a
+                href="/requests"
+                className="text-sm font-medium text-[#006BB4] hover:text-[#005A96]"
+              >
+                View all
+              </a>
+            </div>
           </div>
 
           {loading ? (
-            <div className="p-6 text-sm text-gray-500">
+            <div className="p-6 text-sm text-[#69716b]">
               Loading quotation requests...
             </div>
           ) : quotations.length === 0 ? (
-            <div className="p-6 text-sm text-gray-500">
+            <div className="p-6 text-sm text-[#69716b]">
               No quotation requests found.
             </div>
           ) : (
             <div className="overflow-x-auto">
               <table className="w-full text-sm">
-                <thead className="bg-gray-50 border-b">
+                <thead className="border-b border-[#dfe4df] bg-[#f7f8f6]">
                   <tr>
-                    <th className="text-left px-6 py-3 font-medium text-gray-600">
+                    <th className="px-6 py-3 text-left text-xs font-semibold uppercase tracking-[0.08em] text-[#69716b]">
                       Request
                     </th>
 
-                    <th className="text-left px-6 py-3 font-medium text-gray-600">
+                    <th className="px-6 py-3 text-left text-xs font-semibold uppercase tracking-[0.08em] text-[#69716b]">
                       Facility
                     </th>
 
-                    <th className="text-left px-6 py-3 font-medium text-gray-600">
+                    <th className="px-6 py-3 text-left text-xs font-semibold uppercase tracking-[0.08em] text-[#69716b]">
                       Contact
                     </th>
 
-                    <th className="text-left px-6 py-3 font-medium text-gray-600">
+                    <th className="px-6 py-3 text-left text-xs font-semibold uppercase tracking-[0.08em] text-[#69716b]">
                       Status
                     </th>
 
-                    <th className="text-left px-6 py-3 font-medium text-gray-600">
+                    <th className="px-6 py-3 text-left text-xs font-semibold uppercase tracking-[0.08em] text-[#69716b]">
                       Date
                     </th>
                   </tr>
                 </thead>
 
-                <tbody className="divide-y">
+                <tbody className="divide-y divide-[#edf0ed]">
                   {quotations.map((quotation) => (
-                    <tr key={quotation.id} className="hover:bg-gray-50">
-                      <td className="px-6 py-4 font-medium text-gray-900">
+                    <tr
+                      key={quotation.id}
+                      className="transition-colors hover:bg-[#f7f8f6]"
+                    >
+                      <td className="px-6 py-4 font-medium text-[#171a17]">
                         {quotation.request_number}
                       </td>
 
-                      <td className="px-6 py-4 text-gray-700">
+                      <td className="px-6 py-4 text-[#69716b]">
                         {quotation.facility_name}
                       </td>
 
-                      <td className="px-6 py-4 text-gray-700">
+                      <td className="px-6 py-4 text-[#69716b]">
                         {quotation.contact_person}
                       </td>
 
@@ -181,16 +262,18 @@ export default function Home() {
                         <span
                           className={`inline-flex rounded-full px-3 py-1 text-xs font-medium ${
                             quotation.status === "DONE"
-                              ? "bg-green-100 text-green-700"
-                              : "bg-yellow-100 text-yellow-700"
+                              ? "bg-[#eaf6ef] text-[#21834b]"
+                              : "bg-[#fff7df] text-[#9a7410]"
                           }`}
                         >
                           {quotation.status}
                         </span>
                       </td>
 
-                      <td className="px-6 py-4 text-gray-500">
-                        {new Date(quotation.created_at).toLocaleDateString()}
+                      <td className="px-6 py-4 text-[#858c86]">
+                        {new Date(
+                          quotation.created_at,
+                        ).toLocaleDateString()}
                       </td>
                     </tr>
                   ))}
